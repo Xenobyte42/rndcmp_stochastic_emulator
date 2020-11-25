@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.13)
 project(rndcmp_stochastic_emulator)
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCE_FILES main.cpp)
-
 #### SRC ####
 ADD_SUBDIRECTORY (src)
 
@@ -19,4 +17,5 @@ set (
 
 set (CONTENT ${HEADERS} )
 
-add_executable(main src/${SOURCE_FILES})
+add_executable(example src/example.cpp)
+add_executable(main main.cpp)
