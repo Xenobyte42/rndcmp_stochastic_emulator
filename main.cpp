@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdint>
 #include "fixed_point.hpp"
+#include "integrator.hpp"
 
 
 int main() {

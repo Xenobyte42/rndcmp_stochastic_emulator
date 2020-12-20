@@ -13,6 +13,7 @@ set (
     HEADERS
 
     include/fixed_point.hpp
+    include/integrator.hpp
 )
 
 set (
@@ -23,5 +24,6 @@ set (
 
 set (CONTENT ${HEADERS} ${SRCS})
 
-add_executable(example src/example.cpp ${CONTENT})
+add_executable(example example.cpp ${CONTENT})
 add_executable(main main.cpp ${CONTENT})
+add_executable(integrator_example integrator_example.cpp ${CONTENT})
