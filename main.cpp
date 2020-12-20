@@ -1,13 +1,13 @@
 #include <iostream>
-#include <fixed_point.hpp>
 #include <cstdint>
+#include "fixed_point.hpp"
+
 
 int main() {
     // Uniform distribution random generator
     std::default_random_engine gen = std::default_random_engine();
-    std::uniform_real_distribution dist = std::uniform_real_distribution<double>(0.0,4.0);
+    std::uniform_real_distribution dist = std::uniform_real_distribution<double>(0.0,2.0);
 
-    std::cout << static_cast<int>(3.8) << std::endl;
     // Candidates
     rndcmp::FixedPoint fp15_16 = rndcmp::FixedPoint<std::int32_t, 16>(0.0);
     rndcmp::FixedPointSR fp15_16_sr = rndcmp::FixedPointSR<std::int32_t, 16>(0.0);
@@ -19,16 +19,20 @@ int main() {
     std::cout << "Size of float: " << sizeof(float) << std::endl;
     std::cout << "Size of double: " << sizeof(double) << std::endl;
 
-    for (size_t i = 0; i < 1000; i++) {
+    for (int i = 1; i < 10000; i++) {
         double value = dist(gen); 
+        // double value = std::pow(2, -i);
+        // std::cout << value << std::endl;
         accurate += value;
         f_val += value;
-        fp15_16 = static_cast<double>(fp15_16) + value;
-        fp15_16_sr = static_cast<double>(fp15_16_sr) + value;
+        fp15_16 += value;
+        fp15_16_sr += value;
     }
 
-    std::cout.precision(15);
+    std::cout.precision(32);
     std::cout.setf(std::ios::fixed);
+    std::cout << accurate << std::endl;
+    std::cout << double(fp15_16_sr) << std::endl;
     std::cout << "FixedPoint diff:" << std::fabs(double(fp15_16) - accurate) << std::endl;
     std::cout << "float diff:" << std::fabs(double(f_val) - accurate) << std::endl;
     std::cout << "FixedPointSR diff:" << std::fabs(double(fp15_16_sr) - accurate) << std::endl;

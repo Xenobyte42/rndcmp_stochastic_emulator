@@ -15,7 +15,13 @@ set (
     include/fixed_point.hpp
 )
 
-set (CONTENT ${HEADERS} )
+set (
+    SRCS
 
-add_executable(example src/example.cpp)
-add_executable(main main.cpp)
+    src/fixed_point.cpp
+)
+
+set (CONTENT ${HEADERS} ${SRCS})
+
+add_executable(example src/example.cpp ${CONTENT})
+add_executable(main main.cpp ${CONTENT})
