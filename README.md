@@ -37,3 +37,6 @@ In progress...
 
 Немного примеров использования класса fixedpoint:
 `./example`
+
+Пример использования интегратора:
+`./integrator_example`
