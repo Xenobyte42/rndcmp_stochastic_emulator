@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <cmath>
 #include <random>
+#include <iostream>
 
 
 namespace rndcmp {
@@ -35,11 +36,17 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPoint operator+(const T& rhs) const {
-            return FixedPoint<INT_T, FRACT_SIZE, POW> (T(*this) + rhs);
+            return FixedPoint(T(*this) + rhs);
         }
 
-        FixedPoint operator+(const FixedPoint& rhs) {
-            return FixedPoint<INT_T, FRACT_SIZE, POW> (value + rhs.value);
+        FixedPoint operator+(const FixedPoint& rhs) const {
+            return FixedPoint(value + rhs.value);
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPoint operator+(T lhs, const FixedPoint& rhs) {
+            T val = lhs + T(rhs);
+            return FixedPoint(val);
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -58,11 +65,11 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPoint operator-(const T& rhs) const {
-            return FixedPoint<INT_T, FRACT_SIZE, POW> (T(*this) - rhs);
+            return FixedPoint(T(*this) - rhs);
         }
 
-        FixedPoint operator-(const FixedPoint& rhs) {
-            return FixedPoint<INT_T, FRACT_SIZE, POW> (value - rhs.value);
+        FixedPoint operator-(const FixedPoint& rhs) const {
+            return FixedPoint(value - rhs.value);
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -77,11 +84,21 @@ namespace rndcmp {
             return *this;
         }
 
-        /* multiply and divide operators */
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPoint operator-(T lhs, const FixedPoint& rhs) {
+            T val = lhs - T(rhs);
+            return FixedPoint(val);
+        }
+
+        /* multiply operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPoint operator*(const T& rhs) const {
-            return FixedPoint<INT_T, FRACT_SIZE, POW> (T(*this) * rhs);
+            return FixedPoint(T(*this) * rhs);
+        }
+
+        FixedPoint operator*(const FixedPoint& rhs) const {
+            return FixedPoint(double(*this) * double(rhs));
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -92,8 +109,20 @@ namespace rndcmp {
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPoint operator*(T lhs, const FixedPoint& rhs) {
+            T val = lhs * T(rhs);
+            return FixedPoint(val);
+        }
+
+        /* divide operators */
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPoint operator/(const T& rhs) const {
-            return FixedPoint<INT_T, FRACT_SIZE, POW> (T(*this) / rhs);
+            return FixedPoint(T(*this) / rhs);
+        }
+
+        FixedPoint operator/(const FixedPoint& rhs) const {
+            return FixedPoint(double(*this) / double(rhs));
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -101,6 +130,18 @@ namespace rndcmp {
             T div = T(*this) / rhs;
             setValueFromT<T>(div);
             return *this;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPoint operator/(T lhs, const FixedPoint& rhs) {
+            T val = lhs / T(rhs);
+            return FixedPoint(val);
+        }
+
+        /* ostream overload */
+        friend std::ostream& operator<<(std::ostream& os, const FixedPoint& v) {
+            os << double(v);
+            return os;
         }
 
     protected:
@@ -132,11 +173,11 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPointSR operator+(const T& rhs) const {
-            return FixedPointSR<INT_T, FRACT_SIZE, POW> (T(*this) + rhs);
+            return FixedPointSR(T(*this) + rhs);
         }
 
-        FixedPointSR operator+(const FixedPointSR& rhs) {
-            return FixedPointSR<INT_T, FRACT_SIZE, POW> (value + rhs.value);
+        FixedPointSR operator+(const FixedPointSR& rhs) const {
+            return FixedPointSR(value + rhs.value);
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -151,15 +192,21 @@ namespace rndcmp {
             return *this;
         }
 
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPointSR operator+(T lhs, const FixedPointSR& rhs) {
+            T val = lhs + T(rhs);
+            return FixedPointSR(val);
+        }
+
         /* - operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPointSR operator-(const T& rhs) const {
-            return FixedPointSR<INT_T, FRACT_SIZE, POW> (T(*this) - rhs);
+            return FixedPointSR(T(*this) - rhs);
         }
 
-        FixedPointSR operator-(const FixedPointSR& rhs) {
-            return FixedPointSR<INT_T, FRACT_SIZE, POW> (value - rhs.value);
+        FixedPointSR operator-(const FixedPointSR& rhs) const {
+            return FixedPointSR(value - rhs.value);
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -174,11 +221,21 @@ namespace rndcmp {
             return *this;
         }
 
-        /* multiply and divide operators */
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPointSR operator-(T lhs, const FixedPointSR& rhs) {
+            T val = lhs - T(rhs);
+            return FixedPointSR(val);
+        }
+
+        /* multiply operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPointSR operator*(const T& rhs) const {
-            return FixedPointSR<INT_T, FRACT_SIZE, POW> (T(*this) * rhs);
+            return FixedPointSR(T(*this) * rhs);
+        }
+
+        FixedPointSR operator*(const FixedPointSR& rhs) const {
+            return FixedPointSR(double(*this) * double(rhs));
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -187,6 +244,14 @@ namespace rndcmp {
             setValueFromT<T>(mul);
             return *this;
         }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPointSR operator*(T lhs, const FixedPointSR& rhs) {
+            T val = lhs * T(rhs);
+            return FixedPointSR(val);
+        }
+
+        /* divide operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedPointSR operator/(const T& rhs) const {
@@ -198,6 +263,22 @@ namespace rndcmp {
             T div = T(*this) / rhs;
             setValueFromT<T>(div);
             return *this;
+        }
+
+        FixedPointSR operator/(const FixedPointSR& rhs) const {
+            return FixedPointSR(double(*this) / double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend FixedPointSR operator/(T lhs, const FixedPointSR& rhs) {
+            T val = lhs / T(rhs);
+            return FixedPointSR(val);
+        }
+
+        /* ostream overload */
+        friend std::ostream& operator<<(std::ostream& os, const FixedPointSR& v) {
+            os << double(v);
+            return os;
         }
 
     private:

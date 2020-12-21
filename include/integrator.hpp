@@ -4,12 +4,13 @@
 #include <vector>
 #include <exception>
 #include <string>
+#include <iostream>
 
 
 namespace rndcmp {
 
     template<typename T>
-    using system_func = std::function<const T(const std::vector<T>&, double)>;
+    using system_func = std::function<T(const std::vector<T>&, double)>;
     template<typename T>
     using system_type = std::vector<system_func<T>>;
 
@@ -49,7 +50,7 @@ namespace rndcmp {
 
                 std::vector<DTYPE> newX;
                 for (size_t i = 0; i < tempX.size(); i++) {
-                    newX.push_back(tempX[i] + _step / 6. * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]));
+                    newX.push_back(tempX[i] + _step / 6. * (k1[i] + 2. * k2[i] + 2. * k3[i] + k4[i]));
                 }
                 tempX = newX;
                 _solution.push_back(tempX);
@@ -62,7 +63,8 @@ namespace rndcmp {
 
     protected:
         std::vector<DTYPE> getk1(const std::vector<DTYPE>& x, double t) {
-            return calculate(x, t);
+            auto res = calculate(x, t);
+            return res;
         }
 
         std::vector<DTYPE> getk2(const std::vector<DTYPE>& x, const std::vector<DTYPE>& k1, double t) {

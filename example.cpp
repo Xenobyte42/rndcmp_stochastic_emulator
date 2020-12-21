@@ -21,5 +21,8 @@ int main() {
     // or
     // rndcmp::FixedPoint a = rndcmp::FixedPoint<std::int16_t, 8>(10);
     std::cout << sizeof(rndcmp::FixedPoint<std::int32_t, 16>) << std::endl;
+
+    rndcmp::FixedPointSR c_sr = rndcmp::FixedPointSR<std::int32_t, 16>(2.1);
+    std::cout << 10.0 * c_sr + 3.2 << std::endl;
     return 0;
 }
