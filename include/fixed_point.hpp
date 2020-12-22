@@ -61,6 +61,24 @@ namespace rndcmp {
             return *this;
         }
 
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint operator+(const T& rhs) const {
+            return FixedPoint(double(*this) + double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPoint operator+(T lhs, const FixedPoint& rhs) {
+            double val = double(lhs) + double(rhs);
+            return FixedPoint(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint& operator+=(const T& rhs) {
+            double val = double(*this) + double(rhs);
+            setValueFromT<double>(val);
+            return *this;
+        }
+
         /* - operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -90,6 +108,24 @@ namespace rndcmp {
             return FixedPoint(val);
         }
 
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint operator-(const T& rhs) const {
+            return FixedPoint(double(*this) - double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPoint operator-(T lhs, const FixedPoint& rhs) {
+            double val = double(lhs) - double(rhs);
+            return FixedPoint(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint& operator-=(const T& rhs) {
+            double val = double(*this) - double(rhs);
+            setValueFromT<double>(val);
+            return *this;
+        }
+
         /* multiply operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -114,6 +150,24 @@ namespace rndcmp {
             return FixedPoint(val);
         }
 
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint operator*(const T& rhs) const {
+            return FixedPoint(double(*this) * double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPoint operator*(T lhs, const FixedPoint& rhs) {
+            double val = double(lhs) * double(rhs);
+            return FixedPoint(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint& operator*=(const T& rhs) {
+            double val = double(*this) * double(rhs);
+            setValueFromT<double>(val);
+            return *this;
+        }
+
         /* divide operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -136,6 +190,24 @@ namespace rndcmp {
         friend FixedPoint operator/(T lhs, const FixedPoint& rhs) {
             T val = lhs / T(rhs);
             return FixedPoint(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint operator/(const T& rhs) const {
+            return FixedPoint(double(*this) / double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPoint operator/(T lhs, const FixedPoint& rhs) {
+            double val = double(lhs) / double(rhs);
+            return FixedPoint(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPoint& operator/=(const T& rhs) {
+            double val = double(*this) / double(rhs);
+            setValueFromT<double>(val);
+            return *this;
         }
 
         /* ostream overload */
@@ -198,6 +270,24 @@ namespace rndcmp {
             return FixedPointSR(val);
         }
 
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR operator+(const T& rhs) const {
+            return FixedPointSR(double(*this) + double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPointSR operator+(T lhs, const FixedPointSR& rhs) {
+            double val = double(lhs) + double(rhs);
+            return FixedPointSR(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR& operator+=(const T& rhs) {
+            double val = double(*this) + double(rhs);
+            setValueFromT<double>(val);
+            return *this;
+        }
+
         /* - operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -227,6 +317,24 @@ namespace rndcmp {
             return FixedPointSR(val);
         }
 
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR operator-(const T& rhs) const {
+            return FixedPointSR(double(*this) - double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPointSR operator-(T lhs, const FixedPointSR& rhs) {
+            double val = double(lhs) - double(rhs);
+            return FixedPointSR(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR& operator-=(const T& rhs) {
+            double val = double(*this) - double(rhs);
+            setValueFromT<double>(val);
+            return *this;
+        }
+
         /* multiply operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -251,6 +359,24 @@ namespace rndcmp {
             return FixedPointSR(val);
         }
 
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR operator*(const T& rhs) const {
+            return FixedPointSR(double(*this) * double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPointSR operator*(T lhs, const FixedPointSR& rhs) {
+            double val = double(lhs) * double(rhs);
+            return FixedPointSR(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR& operator*=(const T& rhs) {
+            double val = double(*this) * double(rhs);
+            setValueFromT<double>(val);
+            return *this;
+        }
+
         /* divide operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -273,6 +399,24 @@ namespace rndcmp {
         friend FixedPointSR operator/(T lhs, const FixedPointSR& rhs) {
             T val = lhs / T(rhs);
             return FixedPointSR(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR operator/(const T& rhs) const {
+            return FixedPointSR(double(*this) / double(rhs));
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend FixedPointSR operator/(T lhs, const FixedPointSR& rhs) {
+            double val = double(lhs) / double(rhs);
+            return FixedPointSR(val);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        FixedPointSR& operator/=(const T& rhs) {
+            double val = double(*this) / double(rhs);
+            setValueFromT<double>(val);
+            return *this;
         }
 
         /* ostream overload */
