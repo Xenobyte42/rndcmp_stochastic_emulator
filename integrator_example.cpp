@@ -8,7 +8,7 @@ using FixedType = rndcmp::FixedPoint<std::int32_t, 16>;
 using FixedTypeSR = rndcmp::FixedPointSR<std::int32_t, 16>;
 
 int main() {
-    rndcmp::system_type<double> system = {
+    /*rndcmp::system_type<double> system = {
         [] (const std::vector<double>& x, double t) { return 10.0 * (x[1] - x[0]); },
         [] (const std::vector<double>& x, double t) { return x[0] * (28.0 - x[2]) - x[1]; },
         [] (const std::vector<double>& x, double t) { return x[0] * x[1] - 8.0 / 3.0 * x[2]; }
@@ -34,6 +34,5 @@ int main() {
     auto solution_fp = integrator_fp.getSolution();
     auto solution_fp_sr = integrator_fp_sr.getSolution();
 
-    /* Do smth with solution */
-    return 0;
+    return 0;*/
 }

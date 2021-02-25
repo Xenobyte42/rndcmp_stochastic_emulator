@@ -14,6 +14,8 @@ set (
 
     include/fixed_point.hpp
     include/integrator.hpp
+
+    include/floatsr.hpp
 )
 
 set (
@@ -30,3 +32,4 @@ add_executable(integrator_example integrator_example.cpp ${CONTENT})
 add_executable(experiment1 experiment1.cpp ${CONTENT})
 add_executable(experiment2 experiment2.cpp ${CONTENT})
 add_executable(experiment3 experiment3.cpp ${CONTENT})
+add_executable(experiment4 experiment4.cpp ${CONTENT})

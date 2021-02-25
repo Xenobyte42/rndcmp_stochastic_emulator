@@ -9,7 +9,8 @@
 
 namespace rndcmp {
     
-    static std::default_random_engine generator = std::default_random_engine();
+    static std::random_device rd;
+    static std::mt19937 generator = std::mt19937(rd());
     static std::uniform_real_distribution distribution = std::uniform_real_distribution<double>(0.0,1.0);
 
     template<typename INT_T, int FRACT_SIZE = 0, int POW = 2>
