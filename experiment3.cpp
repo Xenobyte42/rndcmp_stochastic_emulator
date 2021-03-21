@@ -43,25 +43,25 @@ int main() {
     std::vector<float> initial_f = {1., 1., 1.};
     std::vector<FixedType> initial_fp = {FixedType(1.), FixedType(1.), FixedType(1.)};
     std::vector<FixedTypeSR> initial_fp_sr = {FixedTypeSR(1.), FixedTypeSR(1.), FixedTypeSR(1.)};
-    std::vector<rndcmp::FloatSR> initial_float_sr = {rndcmp::FloatSR(1.f), rndcmp::FloatSR(1.f), rndcmp::FloatSR(1.f)};
+    std::vector<rndcmp::FloatSR> initial_float_sr = {rndcmp::FloatSR(1.), rndcmp::FloatSR(1.), rndcmp::FloatSR(1.)};
 
-    auto integrator = rndcmp::RK4Integrator<double>(system, 0.0, 100., 0.0001);
+    auto integrator = rndcmp::RK4Integrator<double>(system, 0.0, 1000., 0.01);
     integrator.setInitial(initial);
     integrator.solve();
 
-    auto integrator_f = rndcmp::RK4Integrator<float>(system_float, 0.0, 100., 0.0001);
+    auto integrator_f = rndcmp::RK4Integrator<float>(system_float, 0.0, 1000., 0.01);
     integrator_f.setInitial(initial_f);
     integrator_f.solve();
 
-    auto integrator_fp = rndcmp::RK4Integrator<FixedType>(system_fixed, 0.0, 100., 0.0001);
+    auto integrator_fp = rndcmp::RK4Integrator<FixedType>(system_fixed, 0.0, 1000., 0.01);
     integrator_fp.setInitial(initial_fp);
     integrator_fp.solve();
 
-    auto integrator_fp_sr = rndcmp::RK4Integrator<FixedTypeSR>(system_fixed_sr, 0.0, 100., 0.0001);
+    auto integrator_fp_sr = rndcmp::RK4Integrator<FixedTypeSR>(system_fixed_sr, 0.0, 1000., 0.01);
     integrator_fp_sr.setInitial(initial_fp_sr);
     integrator_fp_sr.solve();
 
-    auto integrator_float_sr = rndcmp::RK4Integrator<rndcmp::FloatSR>(system_float_sr, 0.0, 100., 0.0001);
+    auto integrator_float_sr = rndcmp::RK4Integrator<rndcmp::FloatSR>(system_float_sr, 0.0, 1000., 0.01);
     integrator_float_sr.setInitial(initial_float_sr);
     integrator_float_sr.solve();
 
@@ -71,7 +71,7 @@ int main() {
     auto solution_fp_sr = integrator_fp_sr.getSolution();
     auto solution_float_sr = integrator_float_sr.getSolution();
     std::cout << "x\tx_f\tx_fp\tx_fpsr\tx_fsr\ty\ty_f\ty_fp\ty_fpsr\ty_fsr\tz\tz_f\tz_fp\tz_fpsr\tz_fsr" << std::endl;
-    std::cout.precision(8);
+    std::cout.precision(10);
     std::cout.setf(std::ios::fixed);
     for (size_t i = 0; i < solution.size(); i++) {
         for (size_t j = 0; j < 3; j++) {
@@ -83,7 +83,6 @@ int main() {
                 std::cout << "\t";
             }
         }
-        
     }
     return 0;
 }

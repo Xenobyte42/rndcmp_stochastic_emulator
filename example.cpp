@@ -1,9 +1,14 @@
 #include <fixed_point.hpp>
 #include <cstdint>
 #include <iostream>
+#include "floatsr.hpp"
 
 
 int main() {
+    std::cout.precision(10);
+    std::cout.setf(std::ios::fixed);
+    rndcmp::FloatSR aa(10);
+    std::cout << aa << std::endl;
     // Works fine!
     rndcmp::FixedPoint a = rndcmp::FixedPoint<std::int16_t, 8>(3.14);
     // Also works fine!

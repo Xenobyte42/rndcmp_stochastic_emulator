@@ -11,6 +11,8 @@ namespace rndcmp {
     constexpr int64_t res32_mask = 0x1fffffff;
     // Epsilon for double to float conversion
     constexpr int64_t eps32 = res32_mask + 1;
+    // Sign bit mask
+    constexpr int64_t sign_mask = ~std::numeric_limits<int64_t>::max();
 
     static std::random_device floating_rd;
     static std::mt19937 int_generator = std::mt19937(floating_rd());
@@ -29,6 +31,11 @@ namespace rndcmp {
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        operator T() const {
+            return static_cast<T>(value);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         operator T() const {
             return static_cast<T>(value);
         }
@@ -133,6 +140,11 @@ namespace rndcmp {
             double v = static_cast<double>(*this) - rhs;
             round(v);
             return *this;
+        }
+
+        // Unary minus
+        FloatSR operator-() const {
+            return FloatSR(-value);
         }
 
         /* multiply operators */

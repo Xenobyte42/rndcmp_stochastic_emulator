@@ -6,14 +6,16 @@
 
 
 int main() {
-    size_t N = 1000000;
-    std::default_random_engine gen = std::default_random_engine();
-    std::uniform_real_distribution dist = std::uniform_real_distribution<double>(-0.016,0.004);
+    size_t N = 10000000;
+    static std::random_device floating_rd;
+    static std::mt19937 gen = std::mt19937(floating_rd());
+
+    std::uniform_real_distribution dist = std::uniform_real_distribution<double>(-0.002,0.016);
 
     std::cout.precision(8);
     std::cout.setf(std::ios::fixed);
     for (size_t n = 1000; n <= N; n+=5000) {
-        double s0 = 1.;
+        double s0 = 0.;
         // Candidates
         rndcmp::FixedPoint fp15_16 = rndcmp::FixedPoint<std::int32_t, 16>(s0);
         rndcmp::FixedPointSR fp15_16_sr = rndcmp::FixedPointSR<std::int32_t, 16>(s0);

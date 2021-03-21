@@ -21,7 +21,7 @@ int main() {
     double accurate = s0;
 
     for (int i = 1; i <= N; i++) {
-        double value = 0.0001;
+        double value = 1. / i;
         accurate += value;
         f_val += value;
         fp15_16 += value;
