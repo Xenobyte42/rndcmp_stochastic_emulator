@@ -212,6 +212,164 @@ namespace rndcmp {
             return *this;
         }
 
+        /* comparison operators */
+
+        /* less */
+
+        bool operator<(const FixedPoint& rhs) const {
+            return value < rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator<(const T& rhs) const {
+            return static_cast<double>(*this) < rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator<(const T& rhs) const {
+            return static_cast<double>(*this) < rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator<(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) < static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator<(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) < static_cast<double>(lhs);
+        }
+
+        /* greater */
+
+        bool operator>(const FixedPoint& rhs) const {
+            return value > rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator>(const T& rhs) const {
+            return static_cast<double>(*this) > rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator>(const T& rhs) const {
+            return static_cast<double>(*this) > rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator>(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) > static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator>(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) > static_cast<double>(lhs);
+        }
+
+        /* equal */
+
+        bool operator==(const FixedPoint& rhs) const {
+            return value == rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator==(const T& rhs) const {
+            return static_cast<double>(*this) == rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator==(const T& rhs) const {
+            return static_cast<double>(*this) == rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator==(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) == static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator==(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) == static_cast<double>(lhs);
+        }
+
+        /* not equal */
+       
+        bool operator!=(const FixedPoint& rhs) const {
+            return value != rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator!=(const T& rhs) const {
+            return static_cast<double>(*this) != rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator!=(const T& rhs) const {
+            return static_cast<double>(*this) != rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator!=(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) != static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator!=(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) != static_cast<double>(lhs);
+        }
+
+        /* less or equal */
+
+        bool operator<=(const FixedPoint& rhs) const {
+            return value <= rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator<=(const T& rhs) const {
+            return static_cast<double>(*this)  <= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator<=(const T& rhs) const {
+            return static_cast<double>(*this)  <= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator<=(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) <= static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator<=(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) <= static_cast<double>(lhs);
+        }
+
+        /* greater or equal */
+
+        bool operator>=(const FixedPoint& rhs) const {
+            return value >= rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator>=(const T& rhs) const {
+            return static_cast<double>(*this) >= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator>=(const T& rhs) const {
+            return static_cast<double>(*this) >= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator>=(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) >= static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator>=(const T& rhs, const FixedPoint& lhs) {
+            return static_cast<double>(rhs) >= static_cast<double>(lhs);
+        }
+
         /* ostream overload */
         friend std::ostream& operator<<(std::ostream& os, const FixedPoint& v) {
             os << double(v);
@@ -240,7 +398,7 @@ namespace rndcmp {
         }
 
         FixedPointSR(INT_T v) {
-            value = v;
+            setValueFromT<double>(static_cast<double>(v));
         }
 
         /* + operators */

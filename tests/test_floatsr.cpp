@@ -48,3 +48,26 @@ TEST(floatsr_test_case, stochastic_rounding_test) {
     EXPECT_GT(rounds_up_cnt, 0) << "the number of rounds up is expected to be greater than 0";
     EXPECT_GT(rounds_down_cnt, 0) << "the number of rounds down is expected to be greater than 0";
 }
+
+TEST(floatsr_test_case, size_test) {
+    rndcmp::FloatSR val = 1.0;
+    EXPECT_EQ(sizeof(val), 4) << "expected sizeof floatsr be 4 bytes, not " << sizeof(val);
+}
+
+TEST(floatsr_test_case, operators_test) {
+    rndcmp::FloatSR val = 0.5;
+    EXPECT_EQ(val == 0.5, true);
+    EXPECT_EQ(val <= 0.5, true);
+    EXPECT_EQ(val >= 0.5, true);
+    EXPECT_EQ(val > 0.1, true);
+    EXPECT_EQ(val < 0.9, true);
+
+    rndcmp::FloatSR val2 = 1.0;
+    EXPECT_EQ(val2 == 1, true);
+    EXPECT_EQ(val2 > 0, true);
+    EXPECT_EQ(val2 < 2, true);
+    EXPECT_EQ(val2 <= 1, true);
+    EXPECT_EQ(val2 >= 1, true);
+
+    EXPECT_EQ(val < val2, true);
+}
