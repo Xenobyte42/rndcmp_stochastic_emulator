@@ -25,8 +25,9 @@ namespace rndcmp {
             setValueFromT(v);
         }
 
-        FixedPoint(INT_T v):
-        value(v) {}
+        FixedPoint(INT_T v) {
+            setValueFromT(static_cast<double>(v));
+        }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         operator T() const {
