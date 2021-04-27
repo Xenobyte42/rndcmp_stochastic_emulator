@@ -237,6 +237,164 @@ namespace rndcmp {
             return *this;
         }
 
+        /* comparison operators */
+
+        /* less */
+
+        bool operator<(const FloatSR& rhs) const {
+            return value < rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator<(const T& rhs) const {
+            return value < rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator<(const T& rhs) const {
+            return value < rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator<(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) < static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator<(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) < static_cast<double>(lhs);
+        }
+
+        /* greater */
+
+        bool operator>(const FloatSR& rhs) const {
+            return value > rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator>(const T& rhs) const {
+            return value > rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator>(const T& rhs) const {
+            return value > rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator>(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) > static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator>(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) > static_cast<double>(lhs);
+        }
+
+        /* equal */
+
+        bool operator==(const FloatSR& rhs) const {
+            return value == rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator==(const T& rhs) const {
+            return value == rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator==(const T& rhs) const {
+            return value == rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator==(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) == static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator==(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) == static_cast<double>(lhs);
+        }
+
+        /* not equal */
+       
+        bool operator!=(const FloatSR& rhs) const {
+            return value != rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator!=(const T& rhs) const {
+            return value != rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator!=(const T& rhs) const {
+            return value != rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator!=(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) != static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator!=(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) != static_cast<double>(lhs);
+        }
+
+        /* less or equal */
+
+        bool operator<=(const FloatSR& rhs) const {
+            return value <= rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator<=(const T& rhs) const {
+            return value <= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator<=(const T& rhs) const {
+            return value <= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator<=(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) <= static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator<=(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) <= static_cast<double>(lhs);
+        }
+
+        /* greater or equal */
+
+        bool operator>=(const FloatSR& rhs) const {
+            return value >= rhs.value;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        bool operator>=(const T& rhs) const {
+            return value >= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        bool operator>=(const T& rhs) const {
+            return value >= rhs;
+        }
+
+        template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+        friend bool operator>=(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) >= static_cast<double>(lhs);
+        }
+
+        template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+        friend bool operator>=(const T& rhs, const FloatSR& lhs) {
+            return static_cast<double>(rhs) >= static_cast<double>(lhs);
+        }
+
         /* ostream overload */
         friend std::ostream& operator<<(std::ostream& os, const FloatSR& v) {
             os << float(v);
