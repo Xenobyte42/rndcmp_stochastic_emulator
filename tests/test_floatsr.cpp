@@ -71,3 +71,27 @@ TEST(floatsr_test_case, operators_test) {
 
     EXPECT_EQ(val < val2, true);
 }
+
+TEST(floatsr_test_case, math_expectation) {
+    double val = 1.0 / 3.0;
+    float float_upper = static_cast<float>(val);
+    float float_lower = std::nextafterf(float_upper, 0.0f);
+
+    double double_lower = static_cast<double>(float_lower);
+    double double_upper = static_cast<double>(float_upper);
+
+    double p_up = (val - double_lower) / (double_upper - double_lower);
+
+    size_t N = 10000000;
+    int64_t round_up_cnt = 0;
+    for (size_t i = 0; i < N; i++) {
+        rndcmp::FloatSR sr_val = rndcmp::FloatSR(val);
+        if (sr_val > val) {
+            round_up_cnt++;
+        }
+    }
+
+    double received_p = static_cast<double>(round_up_cnt) / static_cast<double>(N);
+
+    EXPECT_NEAR(received_p, p_up, 0.001);
+}

@@ -11,8 +11,9 @@ namespace rndcmp {
     constexpr int64_t res32_mask = 0x1fffffff;
     // Epsilon for double to float conversion
     constexpr int64_t eps32 = res32_mask + 1;
-    // Sign bit mask
-    constexpr int64_t sign_mask = ~std::numeric_limits<int64_t>::max();
+
+    constexpr float float_max = std::numeric_limits<float>::max();
+    constexpr float float_min = std::numeric_limits<float>::min();
 
     static std::random_device floating_rd;
     static std::mt19937 int_generator = std::mt19937(floating_rd());
@@ -402,7 +403,6 @@ namespace rndcmp {
         }
 
     private:
-        // TODO (FIXME): check for oveflow 
         void round(double x) {
             // Interpret double as int64 for better bits manipulating
             int64_t x_int = reinterpret_cast<int64_t&>(x);
@@ -414,7 +414,15 @@ namespace rndcmp {
                 x_tr += eps32;
             }
             double result = reinterpret_cast<double&>(x_tr);
-            value = static_cast<float>(result);
+
+            // Check for overflow
+            if (result > float_max) {
+                value = float_max;
+            } else if (result < float_min) {
+                value = float_min;
+            } else {
+                value = static_cast<float>(result);
+            }
         }
 
         float value;
