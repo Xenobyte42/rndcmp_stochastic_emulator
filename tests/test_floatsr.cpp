@@ -95,3 +95,14 @@ TEST(floatsr_test_case, math_expectation) {
 
     EXPECT_NEAR(received_p, p_up, 0.001);
 }
+
+TEST(floatsr_test_case, overflow_test) {
+    double val = 1.1e100;
+    rndcmp::FloatSR sr_val = rndcmp::FloatSR(val);
+
+    EXPECT_NEAR(static_cast<float>(sr_val), std::numeric_limits<float>::max(), 1e-5);
+
+    val = -val;
+    sr_val = val;
+    EXPECT_NEAR(static_cast<float>(sr_val), std::numeric_limits<float>::min(), 1e-5);
+}
