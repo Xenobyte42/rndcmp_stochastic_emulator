@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdint>
-#include "fixed_point.hpp"
+#include "fixedsr.hpp"
 #include "integrator.hpp"
 #include "floatsr.hpp"
 

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
+### GOOGLE TEST ###
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -25,7 +27,7 @@ ADD_SUBDIRECTORY(tests)
 set (
     HEADERS
 
-    include/fixed_point.hpp
+    include/fixedsr.hpp
     include/integrator.hpp
 
     include/floatsr.hpp
@@ -34,7 +36,7 @@ set (
 set (
     SRCS
 
-    src/fixed_point.cpp
+    
 )
 
 set (

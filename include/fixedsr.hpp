@@ -1,5 +1,5 @@
-#ifndef RNDCMP_INCLUDE_FIXED_POINT_HPP_
-#define RNDCMP_INCLUDE_FIXED_POINT_HPP_
+#ifndef RNDCMP_INCLUDE_FIXEDSR_HPP_
+#define RNDCMP_INCLUDE_FIXEDSR_HPP_
 
 #include <type_traits>
 #include <cmath>
@@ -604,4 +604,4 @@ namespace rndcmp {
 
 }
 
-#endif  // RNDCMP_INCLUDE_FIXED_POINT_HPP_
+#endif  // RNDCMP_INCLUDE_FIXEDSR_HPP_
