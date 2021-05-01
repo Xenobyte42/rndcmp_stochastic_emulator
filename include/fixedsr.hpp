@@ -27,7 +27,8 @@ namespace rndcmp {
             setValueFromT<T>(v);
         }
 
-        FixedSR(INT_T v) {
+        template<typename T>
+        FixedSR(T v, std::enable_if_t<std::is_integral_v<T>, int> = 0) {
             setValueFromT<double>(static_cast<double>(v));
         }
 

@@ -14,7 +14,8 @@ namespace rndcmp {
             setValueFromT(v);
         }
 
-        Fixed(INT_T v) {
+        template<typename T>
+        Fixed(T v, std::enable_if_t<std::is_integral_v<T>, int> = 0) {
             setValueFromT(static_cast<double>(v));
         }
 
