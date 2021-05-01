@@ -4,8 +4,8 @@
 #include "integrator.hpp"
 
 
-using FixedType = rndcmp::FixedPoint<std::int32_t, 16>;
-using FixedTypeSR = rndcmp::FixedPointSR<std::int32_t, 16>;
+using FixedType = rndcmp::Fixed<std::int32_t, 16>;
+using FixedTypeSR = rndcmp::FixedSR<std::int32_t, 16>;
 
 int main() {
     rndcmp::system_type<double> system = {

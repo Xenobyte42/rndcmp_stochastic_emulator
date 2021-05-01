@@ -9,12 +9,12 @@ int main() {
 
     double s0 = 0.;
     // Candidates
-    rndcmp::FixedPoint fp15_16 = rndcmp::FixedPoint<std::int32_t, 16>(s0);
-    rndcmp::FixedPointSR fp15_16_sr = rndcmp::FixedPointSR<std::int32_t, 16>(s0);
-    rndcmp::FixedPoint fp7_24 = rndcmp::FixedPoint<std::int32_t, 24>(s0);
-    rndcmp::FixedPointSR fp7_24_sr = rndcmp::FixedPointSR<std::int32_t, 24>(s0);
-    rndcmp::FixedPoint fp7_8 = rndcmp::FixedPoint<std::int16_t, 8>(s0);
-    rndcmp::FixedPointSR fp7_8_sr = rndcmp::FixedPointSR<std::int16_t, 8>(s0);
+    rndcmp::Fixed fp15_16 = rndcmp::Fixed<std::int32_t, 16>(s0);
+    rndcmp::FixedSR fp15_16_sr = rndcmp::FixedSR<std::int32_t, 16>(s0);
+    rndcmp::Fixed fp7_24 = rndcmp::Fixed<std::int32_t, 24>(s0);
+    rndcmp::FixedSR fp7_24_sr = rndcmp::FixedSR<std::int32_t, 24>(s0);
+    rndcmp::Fixed fp7_8 = rndcmp::Fixed<std::int16_t, 8>(s0);
+    rndcmp::FixedSR fp7_8_sr = rndcmp::FixedSR<std::int16_t, 8>(s0);
     rndcmp::FloatSR float_sr = rndcmp::FloatSR(0.f);
     float f_val = s0;
     double accurate = s0;
