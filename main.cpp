@@ -4,6 +4,8 @@
 #include "integrator.hpp"
 
 
+/* DELETE THIS FILE IN FUTURE AND USE ONLY FOR CUSTOM TESTS */
+
 int main() {
     // Uniform distribution random generator
     std::default_random_engine gen = std::default_random_engine();

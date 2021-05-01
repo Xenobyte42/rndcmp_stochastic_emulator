@@ -51,13 +51,13 @@ set (
 set (CONTENT ${HEADERS} ${SRCS})
 set (CONTENT_TEST ${HEADERS} ${SRCS} ${TESTS})
 
-add_executable(example example.cpp ${CONTENT})
+add_executable(example examples/example.cpp ${CONTENT})
 add_executable(main main.cpp ${CONTENT})
-add_executable(integrator_example integrator_example.cpp ${CONTENT})
-add_executable(experiment1 experiment1.cpp ${CONTENT})
-add_executable(experiment2 experiment2.cpp ${CONTENT})
-add_executable(experiment3 experiment3.cpp ${CONTENT})
-add_executable(experiment4 experiment4.cpp ${CONTENT})
+add_executable(integrator_example examples/integrator_example.cpp ${CONTENT})
+add_executable(experiment1 experiments/experiment1.cpp ${CONTENT})
+add_executable(experiment2 experiments/experiment2.cpp ${CONTENT})
+add_executable(experiment3 experiments/experiment3.cpp ${CONTENT})
+add_executable(experiment4 experiments/experiment4.cpp ${CONTENT})
 
 
 # Now simply link against gtest or gtest_main as needed. Eg
