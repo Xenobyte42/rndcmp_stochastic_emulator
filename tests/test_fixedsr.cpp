@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "fixedsr.hpp"
+#include "types.hpp"
 
 
 /* Fixed point test cases */

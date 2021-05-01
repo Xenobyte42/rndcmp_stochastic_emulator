@@ -28,9 +28,11 @@ set (
     HEADERS
 
     include/fixedsr.hpp
-    include/integrator.hpp
-
+    include/fixed.hpp
     include/floatsr.hpp
+    include/types.hpp
+
+    include/integrator.hpp
 )
 
 set (

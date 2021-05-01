@@ -1,7 +1,6 @@
-#include <fixedsr.hpp>
 #include <cstdint>
 #include <iostream>
-#include "floatsr.hpp"
+#include "types.hpp"
 
 
 int main() {

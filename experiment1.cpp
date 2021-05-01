@@ -1,8 +1,7 @@
 #include <iostream>
 #include <cstdint>
-#include "fixedsr.hpp"
+#include "types.hpp"
 #include "integrator.hpp"
-#include "floatsr.hpp"
 
 
 int main() {

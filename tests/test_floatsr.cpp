@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "floatsr.hpp"
+#include "types.hpp"
 
 
 TEST(floatsr_test_case, integer_precision_test) {

@@ -1,8 +1,7 @@
 #include <iostream>
 #include <cstdint>
-#include "fixedsr.hpp"
+#include "types.hpp"
 #include "integrator.hpp"
-#include "floatsr.hpp"
 
 
 using FixedType = rndcmp::FixedPoint<std::int32_t, 16>;
