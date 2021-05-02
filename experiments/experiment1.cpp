@@ -16,6 +16,8 @@ int main() {
     rndcmp::Fixed fp7_8 = rndcmp::Fixed<std::int16_t, 8>(s0);
     rndcmp::FixedSR fp7_8_sr = rndcmp::FixedSR<std::int16_t, 8>(s0);
     rndcmp::FloatSR float_sr = rndcmp::FloatSR(0.f);
+    half_float::half half_sum(0.f);
+    half_float::halfsr halfsr_sum(0.f);
     float f_val = s0;
     double accurate = s0;
 
@@ -30,28 +32,34 @@ int main() {
         fp7_8 += value;
         fp7_8_sr += value;
         float_sr += value;
+        half_sum += value;
+        halfsr_sum += value;
     }
 
     std::cout.precision(8);
     std::cout.setf(std::ios::fixed);
-    std::cout << accurate << std::endl;
-    std::cout << f_val << std::endl;
-    std::cout << fp15_16 << std::endl;
-    std::cout << fp15_16_sr << std::endl;
-    std::cout << fp7_24 << std::endl;
-    std::cout << fp7_24_sr << std::endl;
-    std::cout << fp7_8 << std::endl;
-    std::cout << fp7_8_sr << std::endl;
-    std::cout << float_sr << std::endl;
+    std::cout << "Accurate sum: " << accurate << std::endl;
+    std::cout << "Float sum: " << f_val << std::endl;
+    std::cout << "Fp<15.16> sum: " << fp15_16 << std::endl;
+    std::cout << "FpSR<15.16> sum: " << fp15_16_sr << std::endl;
+    std::cout << "Fp<7.24> sum: " << fp7_24 << std::endl;
+    std::cout << "FpSR<7.24> sum: " << fp7_24_sr << std::endl;
+    std::cout << "Fp<7.8> sum: " << fp7_8 << std::endl;
+    std::cout << "FpSR<7.8> sum: " << fp7_8_sr << std::endl;
+    std::cout << "FloatSR sum: " << float_sr << std::endl;
+    std::cout << "Half sum: " << half_sum << std::endl;
+    std::cout << "HalfSR sum: " << halfsr_sum << std::endl;
     std::cout << std::endl;
     std::cout.precision(6);
-    std::cout << std::fabs(double(f_val) - accurate) << std::endl;
-    std::cout << std::fabs(double(fp15_16) - accurate) << std::endl;
-    std::cout << std::fabs(double(fp15_16_sr) - accurate) << std::endl;
-    std::cout << std::fabs(double(fp7_24) - accurate) << std::endl;
-    std::cout << std::fabs(double(fp7_24_sr) - accurate) << std::endl;
-    std::cout << std::fabs(double(fp7_8) - accurate) << std::endl;
-    std::cout << std::fabs(double(fp7_8_sr) - accurate) << std::endl;
-    std::cout << std::fabs(double(float_sr) - accurate) << std::endl;
+    std::cout << "Float error: " << std::fabs(double(f_val) - accurate) << std::endl;
+    std::cout << "Fp<15.16> error: " << std::fabs(double(fp15_16) - accurate) << std::endl;
+    std::cout << "FpSR<15.16> error: " << std::fabs(double(fp15_16_sr) - accurate) << std::endl;
+    std::cout << "Fp<7.24> error: " << std::fabs(double(fp7_24) - accurate) << std::endl;
+    std::cout << "FpSR<7.24> error: " << std::fabs(double(fp7_24_sr) - accurate) << std::endl;
+    std::cout << "Fp<7.8> error: " << std::fabs(double(fp7_8) - accurate) << std::endl;
+    std::cout << "FpSR<7.8> error: " << std::fabs(double(fp7_8_sr) - accurate) << std::endl;
+    std::cout << "FloatSR error: " << std::fabs(double(float_sr) - accurate) << std::endl;
+    std::cout << "Half error: " << std::fabs(double(half_sum) - accurate) << std::endl;
+    std::cout << "HalfSR error: " << std::fabs(double(halfsr_sum) - accurate) << std::endl;
     return 0;
 }

@@ -4,5 +4,7 @@
 #include "floatsr.hpp"
 #include "fixed.hpp"
 #include "fixedsr.hpp"
+#include "half.hpp"
+#include "halfsr.hpp"
 
 #endif  // RNDCMP_INCLUDE_TYPES_HPP_

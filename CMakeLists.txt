@@ -31,6 +31,8 @@ set (
     include/fixed.hpp
     include/floatsr.hpp
     include/types.hpp
+    include/half.hpp
+    include/halfsr.hpp
 
     include/integrator.hpp
 )
