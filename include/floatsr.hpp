@@ -13,7 +13,7 @@ namespace rndcmp {
     constexpr int64_t eps32 = res32_mask + 1;
 
     constexpr float float_max = std::numeric_limits<float>::max();
-    constexpr float float_min = std::numeric_limits<float>::min();
+    constexpr float float_min = std::numeric_limits<float>::lowest();
 
     static std::random_device floating_rd;
     static std::mt19937 int_generator = std::mt19937(floating_rd());

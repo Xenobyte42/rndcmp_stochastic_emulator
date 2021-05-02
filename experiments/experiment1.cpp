@@ -5,7 +5,7 @@
 
 
 int main() {
-    size_t N =  100000;
+    size_t N =  1000000;
 
     double s0 = 0.;
     // Candidates

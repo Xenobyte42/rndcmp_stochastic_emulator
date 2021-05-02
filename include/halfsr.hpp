@@ -44,10 +44,8 @@ namespace half_float {
             detail::uint16 float2halfsr(T value) {
                 detail::uint16 rounded = detail::float2half<std::round_toward_zero, T>(value);
                 bool is_rounding_needed = is_need_round_up(value);
-                if (is_rounding_needed && value >= 0) {
+                if (is_rounding_needed) {
                     rounded += 1;
-                } else if (!is_rounding_needed && value < 0) {
-                    rounded -= 1;
                 }
                 return rounded;
             }
@@ -60,7 +58,6 @@ namespace half_float {
             bool is_need_round_up(float x) {
                 int32_t x_int = reinterpret_cast<int32_t&>(x);
                 int32_t p = dist32(int_generator);
-                std::cout << p << " " <<  (x_int & res16_mask) << " " << x_int << std::endl;
                 return p < (x_int & res16_mask);
             }
     };

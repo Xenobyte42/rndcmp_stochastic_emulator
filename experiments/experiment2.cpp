@@ -17,8 +17,11 @@ int main() {
         double s0 = 0.;
         // Candidates
         rndcmp::Fixed fp15_16 = rndcmp::Fixed<std::int32_t, 16>(s0);
+        rndcmp::Fixed fp7_8 = rndcmp::Fixed<std::int16_t, 8>(s0);
         rndcmp::FixedSR fp15_16_sr = rndcmp::FixedSR<std::int32_t, 16>(s0);
+        rndcmp::Fixed fp7_8sr = rndcmp::FixedSR<std::int16_t, 8>(s0);
         rndcmp::FloatSR floar_sr = rndcmp::FloatSR(s0);
+        half_float::halfsr half_sr = s0;
         float f_val = s0;
         double accurate = s0;
         for (int i = 1; i <= n; i++) {
@@ -26,14 +29,20 @@ int main() {
             accurate += value;
             f_val += value;
             fp15_16 += value;
+            fp7_8 += value;
             fp15_16_sr += value;
+            fp7_8sr += value;
             floar_sr += value;
+            half_sr += value;
         }
         std::cout << n << "\t";
         std::cout << std::fabs(double(f_val) - accurate) << "\t";
         std::cout << std::fabs(double(fp15_16) - accurate) << "\t";
         std::cout << std::fabs(double(fp15_16_sr) - accurate) << "\t";
-        std::cout << std::fabs(double(floar_sr) - accurate);
+        std::cout << std::fabs(double(floar_sr) - accurate) << "\t";
+        std::cout << std::fabs(double(half_sr) - accurate) << "\t";
+        std::cout << std::fabs(double(fp7_8) - accurate) << "\t";
+        std::cout << std::fabs(double(fp7_8sr) - accurate) << "\t";
         std::cout << std::endl;
     }
 
