@@ -33,6 +33,8 @@ set (
     include/types.hpp
     include/half.hpp
     include/halfsr.hpp
+    include/bfloat16.hpp
+    include/bfloat16sr.hpp
 
     include/integrator.hpp
 )
@@ -48,6 +50,8 @@ set (
 
     tests/test_fixedsr.cpp
     tests/test_floatsr.cpp
+    tests/test_bfloat.cpp
+    tests/test_half.cpp
 )
 
 set (CONTENT ${HEADERS} ${SRCS})

@@ -15,14 +15,16 @@ int main() {
     rndcmp::FixedSR fp7_24_sr = rndcmp::FixedSR<std::int32_t, 24>(s0);
     rndcmp::Fixed fp7_8 = rndcmp::Fixed<std::int16_t, 8>(s0);
     rndcmp::FixedSR fp7_8_sr = rndcmp::FixedSR<std::int16_t, 8>(s0);
-    rndcmp::FloatSR float_sr = rndcmp::FloatSR(0.f);
-    half_float::half half_sum(0.f);
-    half_float::halfsr halfsr_sum(0.f);
+    rndcmp::FloatSR float_sr = rndcmp::FloatSR(s0);
+    half_float::half half_sum(static_cast<float>(s0));
+    half_float::halfsr halfsr_sum(static_cast<float>(s0));
+    rndcmp::bfloat16 bfloat(s0);
+    rndcmp::bfloat16sr bfloatsr(s0);
     float f_val = s0;
     double accurate = s0;
 
     for (int i = 1; i <= N; i++) {
-        double value = 1. / i;
+        double value = -1. / i;
         accurate += value;
         f_val += value;
         fp15_16 += value;
@@ -34,6 +36,8 @@ int main() {
         float_sr += value;
         half_sum += value;
         halfsr_sum += value;
+        bfloat += value;
+        bfloatsr += value;
     }
 
     std::cout.precision(8);
@@ -49,6 +53,8 @@ int main() {
     std::cout << "FloatSR sum: " << float_sr << std::endl;
     std::cout << "Half sum: " << half_sum << std::endl;
     std::cout << "HalfSR sum: " << halfsr_sum << std::endl;
+    std::cout << "Bfloat16 sum: " << bfloat << std::endl;
+    std::cout << "Bfloat16SR sum: " << bfloatsr << std::endl;
     std::cout << std::endl;
     std::cout.precision(6);
     std::cout << "Float error: " << std::fabs(double(f_val) - accurate) << std::endl;
@@ -61,5 +67,7 @@ int main() {
     std::cout << "FloatSR error: " << std::fabs(double(float_sr) - accurate) << std::endl;
     std::cout << "Half error: " << std::fabs(double(half_sum) - accurate) << std::endl;
     std::cout << "HalfSR error: " << std::fabs(double(halfsr_sum) - accurate) << std::endl;
+    std::cout << "Bfloat16 error: " << std::fabs(double(bfloat) - accurate) << std::endl;
+    std::cout << "Bfloat16SR error: " << std::fabs(double(bfloatsr) - accurate) << std::endl;
     return 0;
 }

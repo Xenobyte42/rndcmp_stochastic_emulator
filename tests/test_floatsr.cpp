@@ -104,5 +104,5 @@ TEST(floatsr_test_case, overflow_test) {
 
     val = -val;
     sr_val = val;
-    EXPECT_NEAR(static_cast<float>(sr_val), std::numeric_limits<float>::min(), 1e-5);
+    EXPECT_NEAR(static_cast<float>(sr_val), std::numeric_limits<float>::lowest(), 1e-5);
 }

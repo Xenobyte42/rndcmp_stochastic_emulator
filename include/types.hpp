@@ -6,5 +6,7 @@
 #include "fixedsr.hpp"
 #include "half.hpp"
 #include "halfsr.hpp"
+#include "bfloat16.hpp"
+#include "bfloat16sr.hpp"
 
 #endif  // RNDCMP_INCLUDE_TYPES_HPP_
