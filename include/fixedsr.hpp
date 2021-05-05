@@ -225,9 +225,9 @@ namespace rndcmp {
             T fractional_part = std::modf(powed, &int_part);
             double treshold = distribution(generator);
             value = static_cast<INT_T>(powed);
-            if ((fractional_part > treshold) && (fractional_part >= 0)) {
+            if ((std::fabs(fractional_part) > treshold) && (fractional_part >= 0)) {
                 value += 1;
-            } else if ((fractional_part < 0) && (std::fabs(fractional_part) < treshold)) {
+            } else if ((fractional_part < 0) && (std::fabs(fractional_part) > treshold)) {
                 value -= 1;
             }
         }
