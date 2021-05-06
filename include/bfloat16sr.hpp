@@ -247,12 +247,12 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bool operator<(const T& rhs) const {
-            return value < rhs;
+            return static_cast<T>(*this) < rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         bool operator<(const T& rhs) const {
-            return value < rhs;
+            return static_cast<T>(*this) < rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -273,12 +273,12 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bool operator>(const T& rhs) const {
-            return value > rhs;
+            return static_cast<T>(*this) > rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         bool operator>(const T& rhs) const {
-            return value > rhs;
+            return static_cast<T>(*this) > rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -299,12 +299,12 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bool operator==(const T& rhs) const {
-            return value == rhs;
+            return static_cast<T>(*this) == rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         bool operator==(const T& rhs) const {
-            return value == rhs;
+            return static_cast<T>(*this) == rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -325,12 +325,12 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bool operator!=(const T& rhs) const {
-            return value != rhs;
+            return static_cast<T>(*this) != rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         bool operator!=(const T& rhs) const {
-            return value != rhs;
+            return static_cast<T>(*this) != rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -351,12 +351,12 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bool operator<=(const T& rhs) const {
-            return value <= rhs;
+            return static_cast<T>(*this) <= rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         bool operator<=(const T& rhs) const {
-            return value <= rhs;
+            return static_cast<T>(*this) <= rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -377,12 +377,12 @@ namespace rndcmp {
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bool operator>=(const T& rhs) const {
-            return value >= rhs;
+            return static_cast<T>(*this) >= rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         bool operator>=(const T& rhs) const {
-            return value >= rhs;
+            return static_cast<T>(*this) >= rhs;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
