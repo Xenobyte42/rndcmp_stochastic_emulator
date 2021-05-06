@@ -210,6 +210,13 @@ namespace rndcmp {
             return *this;
         }
 
+        /* unary minus */
+
+        FixedSR operator-() const {
+            double v = - static_cast<double>(*this);
+            return FixedSR(v);
+        }
+
         /* ostream overload */
         friend std::ostream& operator<<(std::ostream& os, const FixedSR& v) {
             os << double(v);

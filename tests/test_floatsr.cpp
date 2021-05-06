@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "types.hpp"
+#include "floatsr.hpp"
 
 
 TEST(floatsr_test_case, integer_precision_test) {
@@ -10,6 +10,7 @@ TEST(floatsr_test_case, integer_precision_test) {
         double expected = 1.0;
         rndcmp::FloatSR val = rndcmp::FloatSR(expected);
         EXPECT_EQ(expected, static_cast<double>(val)) << "expected: " << expected << "received: " << val;
+        EXPECT_EQ(-expected, static_cast<double>(-val)) << "expected: " << -expected << "received: " << -val;
     }
 }
 

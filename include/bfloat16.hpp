@@ -135,7 +135,8 @@ namespace rndcmp {
 
         // Unary minus
         bfloat16 operator-() const {
-            return bfloat16(-value);
+            float v = - static_cast<float>(*this);
+            return bfloat16(v);
         }
 
         /* multiply operators */

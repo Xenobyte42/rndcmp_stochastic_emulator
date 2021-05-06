@@ -360,6 +360,13 @@ namespace rndcmp {
             return static_cast<double>(rhs) >= static_cast<double>(lhs);
         }
 
+        /* unary minus */
+
+        Fixed operator-() const {
+            double v = - static_cast<double>(*this);
+            return Fixed(v);
+        }
+
         /* ostream overload */
         friend std::ostream& operator<<(std::ostream& os, const Fixed& v) {
             os << double(v);

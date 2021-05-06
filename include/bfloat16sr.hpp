@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <iostream>
 #include <cstring>
+#include <random>
 
 
 namespace rndcmp {
@@ -142,7 +143,8 @@ namespace rndcmp {
 
         // Unary minus
         bfloat16sr operator-() const {
-            return bfloat16sr(-value);
+            float v = - static_cast<float>(*this);
+            return bfloat16sr(v);
         }
 
         /* multiply operators */

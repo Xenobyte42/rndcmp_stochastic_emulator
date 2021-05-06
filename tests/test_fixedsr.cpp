@@ -1,29 +1,23 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "types.hpp"
+#include "fixed.hpp"
+#include "fixedsr.hpp"
 
 
 /* Fixed point test cases */
 
-TEST(fp_test_case, integer_precision_test)
-{
-    size_t N = 1000;
-    for (size_t i = 0; i < N; i++) {
-        double expected = 1.0;
-        rndcmp::Fixed val = rndcmp::Fixed<std::int16_t, 8>(expected);
-        EXPECT_EQ(expected, static_cast<double>(val)) << "expected: " << expected << "received: " << val;
-    }
+TEST(fp_test_case, integer_precision_test) {
+    double expected = 1.0;
+    rndcmp::Fixed val = rndcmp::Fixed<std::int16_t, 8>(expected);
+    EXPECT_EQ(expected, static_cast<double>(val)) << "expected: " << expected << "received: " << val;
+    EXPECT_EQ(-expected, static_cast<double>(-val)) << "expected: " << -expected << "received: " << -val;
 }
 
-TEST(fp_test_case, integer_constructor_test)
-{
-    size_t N = 1000;
-    for (size_t i = 0; i < N; i++) {
-        double expected = 1.0;
-        rndcmp::Fixed val = rndcmp::Fixed<std::int16_t, 8>(1);
-        EXPECT_EQ(expected, static_cast<double>(val)) << "expected: " << expected << "received: " << val;
-    }
+TEST(fp_test_case, integer_constructor_test) {
+    double expected = 1.0;
+    rndcmp::Fixed val = rndcmp::Fixed<std::int16_t, 8>(1);
+    EXPECT_EQ(expected, static_cast<double>(val)) << "expected: " << expected << "received: " << val;
 }
 
 TEST(fp_test_case, size_test) {
@@ -61,6 +55,7 @@ TEST(fpsr_test_case, integer_precision_test)
         double expected = 1.0;
         rndcmp::FixedSR val = rndcmp::FixedSR<std::int16_t, 8>(expected);
         EXPECT_EQ(expected, static_cast<double>(val)) << "expected: " << expected << "received: " << val;
+        EXPECT_EQ(-expected, static_cast<double>(-val)) << "expected: " << -expected << "received: " << -val;
     }
 }
 
