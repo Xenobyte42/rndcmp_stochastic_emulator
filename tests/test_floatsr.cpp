@@ -107,3 +107,23 @@ TEST(floatsr_test_case, overflow_test) {
     sr_val = val;
     EXPECT_NEAR(static_cast<float>(sr_val), std::numeric_limits<float>::lowest(), 1e-5);
 }
+
+TEST(floatsr_test_case, math_functions_test) {
+    // Since all argument uniquely representable in fpsr all tests below are valid
+
+    EXPECT_EQ(cos(rndcmp::FloatSR(0.0)), 1);
+    EXPECT_EQ(sin(rndcmp::FloatSR(0.0)), 0);
+
+    EXPECT_EQ(cosh(rndcmp::FloatSR(0.0)), 1);
+    EXPECT_EQ(sinh(rndcmp::FloatSR(0.0)), 0);
+
+    EXPECT_EQ(exp(rndcmp::FloatSR(0.0)), 1);
+    EXPECT_EQ(log(rndcmp::FloatSR(1.0)), 0);
+    EXPECT_EQ(log10(rndcmp::FloatSR(100.0)), 2);
+
+    EXPECT_EQ(pow(rndcmp::FloatSR(2.5), 2), 6.25);
+    EXPECT_EQ(sqrt(rndcmp::FloatSR(6.25)), 2.5);
+    EXPECT_EQ(cbrt(rndcmp::FloatSR(8)), 2);
+
+    EXPECT_EQ(abs(rndcmp::FloatSR(-2.5)), 2.5);
+}

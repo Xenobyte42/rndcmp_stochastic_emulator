@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <iostream>
 #include <cstring>
+#include <cmath>
 
 
 namespace rndcmp {
@@ -392,6 +393,37 @@ namespace rndcmp {
             os << float(v);
             return os;
         }
+
+        /* Trigonometric functions */
+        friend inline bfloat16 cos(const bfloat16&  x)  { return cos(static_cast<float>(x)); }
+        friend inline bfloat16 sin(const bfloat16&  x)  { return sin(static_cast<float>(x)); }
+        friend inline bfloat16 tan(const bfloat16&  x)  { return tan(static_cast<float>(x)); }
+        friend inline bfloat16 acos(const bfloat16&  x)  { return acos(static_cast<float>(x)); }
+        friend inline bfloat16 asin(const bfloat16&  x)  { return asin(static_cast<float>(x)); }
+        friend inline bfloat16 atan(const bfloat16&  x)  { return atan(static_cast<float>(x)); }
+
+        /* Hyperbolic functions */
+        friend inline bfloat16 cosh(const bfloat16&  x)  { return cosh(static_cast<float>(x)); }
+        friend inline bfloat16 sinh(const bfloat16&  x)  { return sinh(static_cast<float>(x)); }
+        friend inline bfloat16 tanh(const bfloat16&  x)  { return tanh(static_cast<float>(x)); }
+        friend inline bfloat16 acosh(const bfloat16&  x)  { return acosh(static_cast<float>(x)); }
+        friend inline bfloat16 asinh(const bfloat16&  x)  { return asinh(static_cast<float>(x)); }
+        friend inline bfloat16 atanh(const bfloat16&  x)  { return atanh(static_cast<float>(x)); }
+
+        /* Exponential and logarithmic functions */
+        friend inline bfloat16 exp(const bfloat16&  x)  { return exp(static_cast<float>(x)); }
+        friend inline bfloat16 log(const bfloat16&  x)  { return log(static_cast<float>(x)); }
+        friend inline bfloat16 log10(const bfloat16&  x)  { return log10(static_cast<float>(x)); }
+
+        /* Power functions */
+        friend inline bfloat16 pow(const bfloat16&  base, double exponent)  { return pow(static_cast<float>(base), exponent); }
+        friend inline bfloat16 sqrt(const bfloat16&  x)  { return sqrt(static_cast<float>(x)); }
+        friend inline bfloat16 cbrt(const bfloat16&  x)  { return cbrt(static_cast<float>(x)); }
+
+        /* Other functions */
+        friend inline bfloat16 abs(const bfloat16&  x)  { return abs(static_cast<float>(x)); }
+        friend inline bfloat16 fabs(const bfloat16&  x)  { return fabs(static_cast<float>(x)); }
+        friend inline bfloat16 abs2(const bfloat16& x)  { return x*x; }
 
     protected:
         int16_t round(float rhs) {

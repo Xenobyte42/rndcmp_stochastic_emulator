@@ -402,6 +402,37 @@ namespace rndcmp {
             return os;
         }
 
+        /* Trigonometric functions */
+        friend inline FloatSR cos(const FloatSR&  x)  { return cos(static_cast<double>(x)); }
+        friend inline FloatSR sin(const FloatSR&  x)  { return sin(static_cast<double>(x)); }
+        friend inline FloatSR tan(const FloatSR&  x)  { return tan(static_cast<double>(x)); }
+        friend inline FloatSR acos(const FloatSR&  x)  { return acos(static_cast<double>(x)); }
+        friend inline FloatSR asin(const FloatSR&  x)  { return asin(static_cast<double>(x)); }
+        friend inline FloatSR atan(const FloatSR&  x)  { return atan(static_cast<double>(x)); }
+
+        /* Hyperbolic functions */
+        friend inline FloatSR cosh(const FloatSR&  x)  { return cosh(static_cast<double>(x)); }
+        friend inline FloatSR sinh(const FloatSR&  x)  { return sinh(static_cast<double>(x)); }
+        friend inline FloatSR tanh(const FloatSR&  x)  { return tanh(static_cast<double>(x)); }
+        friend inline FloatSR acosh(const FloatSR&  x)  { return acosh(static_cast<double>(x)); }
+        friend inline FloatSR asinh(const FloatSR&  x)  { return asinh(static_cast<double>(x)); }
+        friend inline FloatSR atanh(const FloatSR&  x)  { return atanh(static_cast<double>(x)); }
+
+        /* Exponential and logarithmic functions */
+        friend inline FloatSR exp(const FloatSR&  x)  { return exp(static_cast<double>(x)); }
+        friend inline FloatSR log(const FloatSR&  x)  { return log(static_cast<double>(x)); }
+        friend inline FloatSR log10(const FloatSR&  x)  { return log10(static_cast<double>(x)); }
+
+        /* Power functions */
+        friend inline FloatSR pow(const FloatSR&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
+        friend inline FloatSR sqrt(const FloatSR&  x)  { return sqrt(static_cast<double>(x)); }
+        friend inline FloatSR cbrt(const FloatSR&  x)  { return cbrt(static_cast<double>(x)); }
+
+        /* Other functions */
+        friend inline FloatSR abs(const FloatSR&  x)  { return abs(static_cast<double>(x)); }
+        friend inline FloatSR fabs(const FloatSR&  x)  { return fabs(static_cast<double>(x)); }
+        friend inline FloatSR abs2(const FloatSR& x)  { return x*x; }
+
     private:
         void round(double x) {
             // Interpret double as int64 for better bits manipulating

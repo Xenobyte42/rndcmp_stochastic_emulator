@@ -37,6 +37,24 @@ TEST(bfloat_test_case, operators_test) {
     EXPECT_EQ(val < val2, true);
 }
 
+TEST(bfloat_test_case, math_functions_test) {
+    EXPECT_EQ(cos(rndcmp::bfloat16(0.0)), 1);
+    EXPECT_EQ(sin(rndcmp::bfloat16(0.0)), 0);
+
+    EXPECT_EQ(cosh(rndcmp::bfloat16(0.0)), 1);
+    EXPECT_EQ(sinh(rndcmp::bfloat16(0.0)), 0);
+
+    EXPECT_EQ(exp(rndcmp::bfloat16(0.0)), 1);
+    EXPECT_EQ(log(rndcmp::bfloat16(1.0)), 0);
+    EXPECT_EQ(log10(rndcmp::bfloat16(100.0)), 2);
+
+    EXPECT_EQ(pow(rndcmp::bfloat16(2.5), 2), 6.25);
+    EXPECT_EQ(sqrt(rndcmp::bfloat16(6.25)), 2.5);
+    EXPECT_EQ(cbrt(rndcmp::bfloat16(8)), 2);
+
+    EXPECT_EQ(abs(rndcmp::bfloat16(-2.5)), 2.5);
+}
+
 /* BfloatSR test cases */
 
 TEST(bfloatsr_test_case, size_test) {
@@ -106,4 +124,22 @@ TEST(bfloatsr_test_case, operators_test) {
     EXPECT_EQ(val2 >= 1, true);
 
     EXPECT_EQ(val < val2, true);
+}
+
+TEST(bfloatsr_test_case, math_functions_test) {
+    EXPECT_EQ(cos(rndcmp::bfloat16sr(0.0)), 1);
+    EXPECT_EQ(sin(rndcmp::bfloat16sr(0.0)), 0);
+
+    EXPECT_EQ(cosh(rndcmp::bfloat16sr(0.0)), 1);
+    EXPECT_EQ(sinh(rndcmp::bfloat16sr(0.0)), 0);
+
+    EXPECT_EQ(exp(rndcmp::bfloat16sr(0.0)), 1);
+    EXPECT_EQ(log(rndcmp::bfloat16sr(1.0)), 0);
+    EXPECT_EQ(log10(rndcmp::bfloat16sr(100.0)), 2);
+
+    EXPECT_EQ(pow(rndcmp::bfloat16sr(2.5), 2), 6.25);
+    EXPECT_EQ(sqrt(rndcmp::bfloat16sr(6.25)), 2.5);
+    EXPECT_EQ(cbrt(rndcmp::bfloat16sr(8)), 2);
+
+    EXPECT_EQ(abs(rndcmp::bfloat16sr(-2.5)), 2.5);
 }
