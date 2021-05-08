@@ -223,6 +223,37 @@ namespace rndcmp {
             return os;
         }
 
+        /* Trigonometric functions */
+        friend inline FixedSR cos(const FixedSR&  x)  { return cos(static_cast<double>(x)); }
+        friend inline FixedSR sin(const FixedSR&  x)  { return sin(static_cast<double>(x)); }
+        friend inline FixedSR tan(const FixedSR&  x)  { return tan(static_cast<double>(x)); }
+        friend inline FixedSR acos(const FixedSR&  x)  { return acos(static_cast<double>(x)); }
+        friend inline FixedSR asin(const FixedSR&  x)  { return asin(static_cast<double>(x)); }
+        friend inline FixedSR atan(const FixedSR&  x)  { return atan(static_cast<double>(x)); }
+
+        /* Hyperbolic functions */
+        friend inline FixedSR cosh(const FixedSR&  x)  { return cosh(static_cast<double>(x)); }
+        friend inline FixedSR sinh(const FixedSR&  x)  { return sinh(static_cast<double>(x)); }
+        friend inline FixedSR tanh(const FixedSR&  x)  { return tanh(static_cast<double>(x)); }
+        friend inline FixedSR acosh(const FixedSR&  x)  { return acosh(static_cast<double>(x)); }
+        friend inline FixedSR asinh(const FixedSR&  x)  { return asinh(static_cast<double>(x)); }
+        friend inline FixedSR atanh(const FixedSR&  x)  { return atanh(static_cast<double>(x)); }
+
+        /* Exponential and logarithmic functions */
+        friend inline FixedSR exp(const FixedSR&  x)  { return exp(static_cast<double>(x)); }
+        friend inline FixedSR log(const FixedSR&  x)  { return log(static_cast<double>(x)); }
+        friend inline FixedSR log10(const FixedSR&  x)  { return log10(static_cast<double>(x)); }
+
+        /* Power functions */
+        friend inline FixedSR pow(const FixedSR&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
+        friend inline FixedSR sqrt(const FixedSR&  x)  { return sqrt(static_cast<double>(x)); }
+        friend inline FixedSR cbrt(const FixedSR&  x)  { return cbrt(static_cast<double>(x)); }
+
+        /* Other functions */
+        friend inline FixedSR abs(const FixedSR&  x)  { return abs(static_cast<double>(x)); }
+        friend inline FixedSR fabs(const FixedSR&  x)  { return fabs(static_cast<double>(x)); }
+        friend inline FixedSR abs2(const FixedSR& x)  { return x*x; }
+
     private:
         template<typename T>
         void setValueFromT(T v) {

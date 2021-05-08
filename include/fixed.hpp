@@ -1,6 +1,9 @@
 #ifndef RNDCMP_INCLUDE_FIXED_HPP_
 #define RNDCMP_INCLUDE_FIXED_HPP_
 
+
+#include <cmath>
+
 namespace rndcmp {
     template<typename INT_T, int FRACT_SIZE = 0, int POW = 2>
     class Fixed {
@@ -372,6 +375,37 @@ namespace rndcmp {
             os << double(v);
             return os;
         }
+    
+        /* Trigonometric functions */
+        friend inline Fixed cos(const Fixed&  x)  { return cos(static_cast<double>(x)); }
+        friend inline Fixed sin(const Fixed&  x)  { return sin(static_cast<double>(x)); }
+        friend inline Fixed tan(const Fixed&  x)  { return tan(static_cast<double>(x)); }
+        friend inline Fixed acos(const Fixed&  x)  { return acos(static_cast<double>(x)); }
+        friend inline Fixed asin(const Fixed&  x)  { return asin(static_cast<double>(x)); }
+        friend inline Fixed atan(const Fixed&  x)  { return atan(static_cast<double>(x)); }
+
+        /* Hyperbolic functions */
+        friend inline Fixed cosh(const Fixed&  x)  { return cosh(static_cast<double>(x)); }
+        friend inline Fixed sinh(const Fixed&  x)  { return sinh(static_cast<double>(x)); }
+        friend inline Fixed tanh(const Fixed&  x)  { return tanh(static_cast<double>(x)); }
+        friend inline Fixed acosh(const Fixed&  x)  { return acosh(static_cast<double>(x)); }
+        friend inline Fixed asinh(const Fixed&  x)  { return asinh(static_cast<double>(x)); }
+        friend inline Fixed atanh(const Fixed&  x)  { return atanh(static_cast<double>(x)); }
+
+        /* Exponential and logarithmic functions */
+        friend inline Fixed exp(const Fixed&  x)  { return exp(static_cast<double>(x)); }
+        friend inline Fixed log(const Fixed&  x)  { return log(static_cast<double>(x)); }
+        friend inline Fixed log10(const Fixed&  x)  { return log10(static_cast<double>(x)); }
+
+        /* Power functions */
+        friend inline Fixed pow(const Fixed&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
+        friend inline Fixed sqrt(const Fixed&  x)  { return sqrt(static_cast<double>(x)); }
+        friend inline Fixed cbrt(const Fixed&  x)  { return cbrt(static_cast<double>(x)); }
+
+        /* Other functions */
+        friend inline Fixed abs(const Fixed&  x)  { return abs(static_cast<double>(x)); }
+        friend inline Fixed fabs(const Fixed&  x)  { return fabs(static_cast<double>(x)); }
+        friend inline Fixed abs2(const Fixed& x)  { return x*x; }
 
     protected:
         INT_T value;

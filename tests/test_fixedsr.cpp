@@ -46,6 +46,24 @@ TEST(fp_test_case, operators_test) {
     EXPECT_EQ(val < val2, true);
 }
 
+TEST(fp_test_case, math_functions_test) {
+    EXPECT_EQ(cos(rndcmp::Fixed<std::int16_t, 8>(0.0)), 1);
+    EXPECT_EQ(sin(rndcmp::Fixed<std::int16_t, 8>(0.0)), 0);
+
+    EXPECT_EQ(cosh(rndcmp::Fixed<std::int16_t, 8>(0.0)), 1);
+    EXPECT_EQ(sinh(rndcmp::Fixed<std::int16_t, 8>(0.0)), 0);
+
+    EXPECT_EQ(exp(rndcmp::Fixed<std::int16_t, 8>(0.0)), 1);
+    EXPECT_EQ(log(rndcmp::Fixed<std::int16_t, 8>(1.0)), 0);
+    EXPECT_EQ(log10(rndcmp::Fixed<std::int16_t, 8>(100.0)), 2);
+
+    EXPECT_EQ(pow(rndcmp::Fixed<std::int16_t, 8>(2.5), 2), 6.25);
+    EXPECT_EQ(sqrt(rndcmp::Fixed<std::int16_t, 8>(6.25)), 2.5);
+    EXPECT_EQ(cbrt(rndcmp::Fixed<std::int16_t, 8>(8)), 2);
+
+    EXPECT_EQ(abs(rndcmp::Fixed<std::int16_t, 8>(-2.5)), 2.5);
+}
+
 /* Fixed point stochastic test cases */
 
 TEST(fpsr_test_case, integer_precision_test)
@@ -122,3 +140,24 @@ TEST(fpsr_test_case, operators_test) {
 
     EXPECT_EQ(val < val2, true);
 }
+
+TEST(fpsr_test_case, math_functions_test) {
+    // Since all argument uniquely representable in fpsr all tests below are valid
+
+    EXPECT_EQ(cos(rndcmp::FixedSR<std::int16_t, 8>(0.0)), 1);
+    EXPECT_EQ(sin(rndcmp::FixedSR<std::int16_t, 8>(0.0)), 0);
+
+    EXPECT_EQ(cosh(rndcmp::FixedSR<std::int16_t, 8>(0.0)), 1);
+    EXPECT_EQ(sinh(rndcmp::FixedSR<std::int16_t, 8>(0.0)), 0);
+
+    EXPECT_EQ(exp(rndcmp::FixedSR<std::int16_t, 8>(0.0)), 1);
+    EXPECT_EQ(log(rndcmp::FixedSR<std::int16_t, 8>(1.0)), 0);
+    EXPECT_EQ(log10(rndcmp::FixedSR<std::int16_t, 8>(100.0)), 2);
+
+    EXPECT_EQ(pow(rndcmp::FixedSR<std::int16_t, 8>(2.5), 2), 6.25);
+    EXPECT_EQ(sqrt(rndcmp::FixedSR<std::int16_t, 8>(6.25)), 2.5);
+    EXPECT_EQ(cbrt(rndcmp::FixedSR<std::int16_t, 8>(8)), 2);
+
+    EXPECT_EQ(abs(rndcmp::FixedSR<std::int16_t, 8>(-2.5)), 2.5);
+}
+
