@@ -7,6 +7,7 @@
 #include <iostream>
 #include <Eigen/Core>
 
+
 namespace rndcmp {
     // Мask for 29 low-cut bits for double
     constexpr int64_t res32_mask = 0x1fffffff;

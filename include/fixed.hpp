@@ -1,8 +1,9 @@
 #ifndef RNDCMP_INCLUDE_FIXED_HPP_
 #define RNDCMP_INCLUDE_FIXED_HPP_
 
-
 #include <cmath>
+#include <Eigen/Core>
+
 
 namespace rndcmp {
     template<typename INT_T, int FRACT_SIZE = 0, int POW = 2>
@@ -132,6 +133,11 @@ namespace rndcmp {
             return Fixed(double(*this) * double(rhs));
         }
 
+        Fixed& operator*=(const Fixed& rhs) {
+            value *= rhs.value;
+            return *this;
+        }
+
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         Fixed& operator*=(const T& rhs) {
             T mul = T(*this) * rhs;
@@ -178,6 +184,11 @@ namespace rndcmp {
         Fixed& operator/=(const T& rhs) {
             T div = T(*this) / rhs;
             setValueFromT<T>(div);
+            return *this;
+        }
+
+        Fixed& operator/=(const Fixed& rhs) {
+            value /= rhs.value;
             return *this;
         }
 
@@ -396,16 +407,23 @@ namespace rndcmp {
         friend inline Fixed exp(const Fixed&  x)  { return exp(static_cast<double>(x)); }
         friend inline Fixed log(const Fixed&  x)  { return log(static_cast<double>(x)); }
         friend inline Fixed log10(const Fixed&  x)  { return log10(static_cast<double>(x)); }
+        friend inline Fixed logb(const Fixed&  x)  { return logb(static_cast<double>(x)); }
 
         /* Power functions */
         friend inline Fixed pow(const Fixed&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
         friend inline Fixed sqrt(const Fixed&  x)  { return sqrt(static_cast<double>(x)); }
         friend inline Fixed cbrt(const Fixed&  x)  { return cbrt(static_cast<double>(x)); }
 
+        friend inline Fixed scalbn(const Fixed&  x, int n)  { return scalbn(static_cast<double>(x), n); }
+
         /* Other functions */
         friend inline Fixed abs(const Fixed&  x)  { return abs(static_cast<double>(x)); }
         friend inline Fixed fabs(const Fixed&  x)  { return fabs(static_cast<double>(x)); }
         friend inline Fixed abs2(const Fixed& x)  { return x*x; }
+
+        friend inline Fixed copysign(const Fixed&  x1, const Fixed& x2)  { return copysign(static_cast<double>(x1), static_cast<double>(x2)); }
+        friend inline Fixed fmax(const Fixed&  x1, const Fixed&  x2) { return x1 < x2 ? x1 : x2; }
+        friend inline bool isfinite(const Fixed& x) { return true; }
 
     protected:
         INT_T value;
@@ -414,6 +432,24 @@ namespace rndcmp {
         void setValueFromT(T v) {
             value = static_cast<INT_T>(v * (1 << FRACT_SIZE));
         }
+    };
+}
+
+namespace Eigen {
+    template<typename INT_T, int FRACT_SIZE, int POW> struct NumTraits<rndcmp::Fixed<INT_T, FRACT_SIZE, POW>> {
+        typedef rndcmp::Fixed<INT_T, FRACT_SIZE, POW> Real;
+        typedef rndcmp::Fixed<INT_T, FRACT_SIZE, POW> NonInteger;
+        typedef rndcmp::Fixed<INT_T, FRACT_SIZE, POW> Nested;
+        
+        enum {
+            IsComplex = 0,
+            IsInteger = 0,
+            IsSigned = 1,
+            RequireInitialization = 1,
+            ReadCost = 1,
+            AddCost = 4,
+            MulCost = 4
+        };
     };
 }
 
