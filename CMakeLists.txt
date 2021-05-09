@@ -14,70 +14,11 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-### BOOST ###
 
-set(THIRD_PARTY ${CMAKE_SOURCE_DIR}/thirdparty)
-file(MAKE_DIRECTORY ${THIRD_PARTY})
+### EIGEN ###
 
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
-set(BOOST_ENABLE_CMAKE ON)
-set(ENV{CXX} "${CMAKE_CXX_COMPILER}")
-
-if(NOT EXISTS "${THIRD_PARTY}/boost/")
-    message(NOTICE "Fetching Boost...")
-    FetchContent_Declare(
-        boost
-        GIT_REPOSITORY https://github.com/boostorg/boost.git
-        GIT_TAG        boost-1.75.0
-        GIT_SHALLOW    TRUE
-        GIT_PROGRESS   TRUE
-        SOURCE_DIR     ${THIRD_PARTY}/boost
-    )
-    FetchContent_GetProperties(boost)
-    if(NOT boost_POPULATED)
-        FetchContent_Populate(boost)
-    endif()
-    if(UNIX)
-        execute_process (
-            COMMAND ./bootstrap.sh
-            RESULT_VARIABLE result
-            WORKING_DIRECTORY ${boost_SOURCE_DIR}
-        )
-        if(NOT result EQUAL 0)
-            message( FATAL_ERROR "Failed to build Boost: ${result}")
-        endif()
-        execute_process (
-            COMMAND ./b2 headers
-            RESULT_VARIABLE result
-            WORKING_DIRECTORY ${boost_SOURCE_DIR}
-        )
-        if(NOT result EQUAL 0)
-            message( FATAL_ERROR "Failed to build Boost: ${result}")
-        endif()
-    elseif(WIN32)
-        execute_process (
-            COMMAND ./bootstrap.bat
-            RESULT_VARIABLE result
-            WORKING_DIRECTORY ${boost_SOURCE_DIR}
-        )
-        execute_process (
-            COMMAND b2 headers
-            RESULT_VARIABLE result
-            WORKING_DIRECTORY ${boost_SOURCE_DIR}
-        )
-    endif()
-endif()
-
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_STATIC_RUNTIME ON)
-
-set(BOOST_ROOT ${THIRD_PARTY}/boost)
-find_package(Boost 1.73.0 REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
-if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Boost is not found.")
-endif()
 
 #### SRC ####
 ADD_SUBDIRECTORY (src)
@@ -101,6 +42,7 @@ set (
     include/bfloat16sr.hpp
 
     include/integrator.hpp
+    include/esn.hpp
 )
 
 set (
@@ -122,18 +64,31 @@ set (CONTENT ${HEADERS} ${SRCS})
 set (CONTENT_TEST ${HEADERS} ${SRCS} ${TESTS})
 
 add_executable(example examples/example.cpp ${CONTENT})
-add_executable(main main.cpp ${CONTENT})
-add_executable(integrator_example examples/integrator_example.cpp ${CONTENT})
-add_executable(experiment1 experiments/experiment1.cpp ${CONTENT})
-add_executable(experiment2 experiments/experiment2.cpp ${CONTENT})
-add_executable(experiment3 experiments/experiment3.cpp ${CONTENT})
-add_executable(experiment4 experiments/experiment4.cpp ${CONTENT})
+target_link_libraries(example Eigen3::Eigen)
 
-target_link_libraries(main PRIVATE Boost::boost)
+add_executable(main main.cpp ${CONTENT})
+target_link_libraries(main Eigen3::Eigen)
+
+add_executable(integrator_example examples/integrator_example.cpp ${CONTENT})
+target_link_libraries(integrator_example Eigen3::Eigen)
+
+add_executable(experiment1 experiments/experiment1.cpp ${CONTENT})
+target_link_libraries(experiment1 Eigen3::Eigen)
+
+add_executable(experiment2 experiments/experiment2.cpp ${CONTENT})
+target_link_libraries(experiment2 Eigen3::Eigen)
+
+add_executable(experiment3 experiments/experiment3.cpp ${CONTENT})
+target_link_libraries(experiment3 Eigen3::Eigen)
+
+add_executable(experiment4 experiments/experiment4.cpp ${CONTENT})
+target_link_libraries(experiment4 Eigen3::Eigen)
+
+
 
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(test_main ${CONTENT_TEST})
-target_link_libraries(test_main gtest_main)
+target_link_libraries(test_main gtest_main Eigen3::Eigen)
 
 enable_testing()
 add_test(NAME test_main COMMAND test)

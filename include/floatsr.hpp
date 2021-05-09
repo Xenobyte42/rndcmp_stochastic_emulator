@@ -5,6 +5,7 @@
 #include <cmath>
 #include <random>
 #include <iostream>
+#include <Eigen/Core>
 
 namespace rndcmp {
     // Мask for 29 low-cut bits for double
@@ -193,6 +194,12 @@ namespace rndcmp {
             return *this;
         }
 
+        FloatSR& operator*=(const FloatSR& rhs) {
+            double v = static_cast<double>(value) * static_cast<double>(rhs);
+            round(v);
+            return *this;
+        }
+
         /* divide operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -234,6 +241,12 @@ namespace rndcmp {
         template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
         FloatSR& operator/=(const T& rhs) {
             double v = static_cast<double>(*this) / rhs;
+            round(v);
+            return *this;
+        }
+
+        FloatSR& operator/=(const FloatSR& rhs) {
+            double v = static_cast<double>(value) / static_cast<double>(rhs);
             round(v);
             return *this;
         }
@@ -422,16 +435,23 @@ namespace rndcmp {
         friend inline FloatSR exp(const FloatSR&  x)  { return exp(static_cast<double>(x)); }
         friend inline FloatSR log(const FloatSR&  x)  { return log(static_cast<double>(x)); }
         friend inline FloatSR log10(const FloatSR&  x)  { return log10(static_cast<double>(x)); }
+        friend inline FloatSR logb(const FloatSR&  x)  { return logb(static_cast<double>(x)); }
 
         /* Power functions */
         friend inline FloatSR pow(const FloatSR&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
         friend inline FloatSR sqrt(const FloatSR&  x)  { return sqrt(static_cast<double>(x)); }
         friend inline FloatSR cbrt(const FloatSR&  x)  { return cbrt(static_cast<double>(x)); }
 
+        friend inline FloatSR scalbn(const FloatSR&  x, int n)  { return scalbn(static_cast<double>(x), n); }
+
         /* Other functions */
         friend inline FloatSR abs(const FloatSR&  x)  { return abs(static_cast<double>(x)); }
         friend inline FloatSR fabs(const FloatSR&  x)  { return fabs(static_cast<double>(x)); }
         friend inline FloatSR abs2(const FloatSR& x)  { return x*x; }
+
+        friend inline FloatSR copysign(const FloatSR&  x1, const FloatSR& x2)  { return copysign(static_cast<double>(x1), static_cast<double>(x2)); }
+        friend inline FloatSR fmax(const FloatSR&  x1, const FloatSR&  x2) { return x1 < x2 ? x1 : x2; }
+        friend inline bool isfinite(const FloatSR& x) { return true; }
 
     private:
         void round(double x) {
@@ -457,6 +477,24 @@ namespace rndcmp {
         }
 
         float value;
+    };
+}
+
+namespace Eigen {
+    template<> struct NumTraits<rndcmp::FloatSR>: NumTraits<float> {
+        typedef rndcmp::FloatSR Real;
+        typedef rndcmp::FloatSR NonInteger;
+        typedef rndcmp::FloatSR Nested;
+        
+        enum {
+            IsComplex = 0,
+            IsInteger = 0,
+            IsSigned = 1,
+            RequireInitialization = 1,
+            ReadCost = 2,
+            AddCost = 6,
+            MulCost = 8
+        };
     };
 }
 
