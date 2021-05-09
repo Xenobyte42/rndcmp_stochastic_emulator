@@ -193,6 +193,12 @@ namespace rndcmp {
             return *this;
         }
 
+        bfloat16sr& operator*=(const bfloat16sr& rhs) {
+            float v = static_cast<float>(*this) * static_cast<float>(rhs);
+            value = round(v);
+            return *this;
+        }
+
         /* divide operators */
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -235,6 +241,12 @@ namespace rndcmp {
         bfloat16sr& operator/=(const T& rhs) {
             float v = static_cast<float>(*this) / rhs;
             round(v);
+            return *this;
+        }
+
+        bfloat16sr& operator/=(const bfloat16sr& rhs) {
+            float v = static_cast<float>(*this) / static_cast<float>(rhs);
+            value = round(v);
             return *this;
         }
 
@@ -422,16 +434,23 @@ namespace rndcmp {
         friend inline bfloat16sr exp(const bfloat16sr&  x)  { return exp(static_cast<double>(x)); }
         friend inline bfloat16sr log(const bfloat16sr&  x)  { return log(static_cast<double>(x)); }
         friend inline bfloat16sr log10(const bfloat16sr&  x)  { return log10(static_cast<double>(x)); }
+        friend inline bfloat16sr logb(const bfloat16sr&  x)  { return logb(static_cast<double>(x)); }
 
         /* Power functions */
         friend inline bfloat16sr pow(const bfloat16sr&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
         friend inline bfloat16sr sqrt(const bfloat16sr&  x)  { return sqrt(static_cast<double>(x)); }
         friend inline bfloat16sr cbrt(const bfloat16sr&  x)  { return cbrt(static_cast<double>(x)); }
+    
+        friend inline bfloat16sr scalbn(const bfloat16sr&  x, int n)  { return scalbn(static_cast<double>(x), n); }
 
         /* Other functions */
         friend inline bfloat16sr abs(const bfloat16sr&  x)  { return abs(static_cast<double>(x)); }
         friend inline bfloat16sr fabs(const bfloat16sr&  x)  { return fabs(static_cast<double>(x)); }
         friend inline bfloat16sr abs2(const bfloat16sr& x)  { return x*x; }
+
+        friend inline bfloat16sr copysign(const bfloat16sr&  x1, const bfloat16sr& x2)  { return copysign(static_cast<double>(x1), static_cast<double>(x2)); }
+        friend inline bfloat16sr fmax(const bfloat16sr&  x1, const bfloat16sr&  x2) { return x1 < x2 ? x1 : x2; }
+        friend inline bool isfinite(const bfloat16sr& x) { return true; }
 
     protected:
         int16_t round(float rhs) {
@@ -452,6 +471,24 @@ namespace rndcmp {
         }
 
         int16_t value;
+    };
+}
+
+namespace Eigen {
+    template<> struct NumTraits<rndcmp::bfloat16sr> {
+        typedef rndcmp::bfloat16sr Real;
+        typedef rndcmp::bfloat16sr NonInteger;
+        typedef rndcmp::bfloat16sr Nested;
+        
+        enum {
+            IsComplex = 0,
+            IsInteger = 0,
+            IsSigned = 1,
+            RequireInitialization = 1,
+            ReadCost = 2,
+            AddCost = 3,
+            MulCost = 3
+        };
     };
 }
 
