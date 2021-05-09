@@ -22,6 +22,8 @@ namespace rndcmp {
 
         /* Constructors */
 
+        FixedSR() = default;
+
         template<typename T>
         FixedSR(T v, std::enable_if_t<std::is_floating_point<T>::value, bool> = true) {
             setValueFromT<T>(v);
@@ -137,6 +139,11 @@ namespace rndcmp {
             return FixedSR(double(*this) * double(rhs));
         }
 
+        FixedSR& operator*=(const FixedSR& rhs) {
+            value *= rhs.value;
+            return *this;
+        }
+
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         FixedSR& operator*=(const T& rhs) {
             T mul = T(*this) * rhs;
@@ -184,6 +191,11 @@ namespace rndcmp {
 
         FixedSR operator/(const FixedSR& rhs) const {
             return FixedSR(double(*this) / double(rhs));
+        }
+
+        FixedSR& operator/=(const FixedSR& rhs) {
+            value /= rhs.value;
+            return *this;
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -243,16 +255,23 @@ namespace rndcmp {
         friend inline FixedSR exp(const FixedSR&  x)  { return exp(static_cast<double>(x)); }
         friend inline FixedSR log(const FixedSR&  x)  { return log(static_cast<double>(x)); }
         friend inline FixedSR log10(const FixedSR&  x)  { return log10(static_cast<double>(x)); }
+        friend inline FixedSR logb(const FixedSR&  x)  { return logb(static_cast<double>(x)); }
 
         /* Power functions */
         friend inline FixedSR pow(const FixedSR&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
         friend inline FixedSR sqrt(const FixedSR&  x)  { return sqrt(static_cast<double>(x)); }
         friend inline FixedSR cbrt(const FixedSR&  x)  { return cbrt(static_cast<double>(x)); }
 
+        friend inline FixedSR scalbn(const FixedSR&  x, int n)  { return scalbn(static_cast<double>(x), n); }
+
         /* Other functions */
         friend inline FixedSR abs(const FixedSR&  x)  { return abs(static_cast<double>(x)); }
         friend inline FixedSR fabs(const FixedSR&  x)  { return fabs(static_cast<double>(x)); }
         friend inline FixedSR abs2(const FixedSR& x)  { return x*x; }
+
+        friend inline FixedSR copysign(const FixedSR&  x1, const FixedSR& x2)  { return copysign(static_cast<double>(x1), static_cast<double>(x2)); }
+        friend inline FixedSR fmax(const FixedSR&  x1, const FixedSR&  x2) { return x1 < x2 ? x1 : x2; }
+        friend inline bool isfinite(const FixedSR& x) { return true; }
 
     private:
         template<typename T>
@@ -270,7 +289,24 @@ namespace rndcmp {
             }
         }
     }; 
+}
 
+namespace Eigen {
+    template<typename INT_T, int FRACT_SIZE, int POW> struct NumTraits<rndcmp::FixedSR<INT_T, FRACT_SIZE, POW>> {
+        typedef rndcmp::FixedSR<INT_T, FRACT_SIZE, POW> Real;
+        typedef rndcmp::FixedSR<INT_T, FRACT_SIZE, POW> NonInteger;
+        typedef rndcmp::FixedSR<INT_T, FRACT_SIZE, POW> Nested;
+        
+        enum {
+            IsComplex = 0,
+            IsInteger = 0,
+            IsSigned = 1,
+            RequireInitialization = 1,
+            ReadCost = 1,
+            AddCost = 6,
+            MulCost = 8
+        };
+    };
 }
 
 #endif  // RNDCMP_INCLUDE_FIXEDSR_HPP_
