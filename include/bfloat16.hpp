@@ -37,12 +37,12 @@ namespace rndcmp {
         
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         bfloat16 operator+(const T& rhs) const {
-            float v = static_cast<float>(value) + static_cast<float>(rhs);
+            float v = static_cast<float>(*this) + static_cast<float>(rhs);
             return bfloat16(v);
         }
 
         bfloat16 operator+(const bfloat16& rhs) const {
-            float v = static_cast<float>(value) + static_cast<float>(rhs);
+            float v = static_cast<float>(*this) + static_cast<float>(rhs);
             return bfloat16(v);
         }
 
@@ -105,7 +105,7 @@ namespace rndcmp {
         }
 
         bfloat16& operator-=(const bfloat16& rhs) {
-            float v = static_cast<float>(value) - static_cast<float>(rhs);
+            float v = static_cast<float>(*this) - static_cast<float>(rhs);
             value = round(v);
             return *this;
         }
@@ -187,7 +187,7 @@ namespace rndcmp {
         }
 
         bfloat16& operator*=(const bfloat16& rhs) {
-            float v = static_cast<float>(value) * static_cast<float>(rhs);
+            float v = static_cast<float>(*this) * static_cast<float>(rhs);
             value = round(v);
             return *this;
         }
@@ -238,7 +238,7 @@ namespace rndcmp {
         }
 
         bfloat16& operator/=(const bfloat16& rhs) {
-            float v = static_cast<float>(value) / static_cast<float>(rhs);
+            float v = static_cast<float>(*this) / static_cast<float>(rhs);
             value = round(v);
             return *this;
         }

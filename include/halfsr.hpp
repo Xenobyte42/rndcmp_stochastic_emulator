@@ -23,7 +23,9 @@ namespace half_float {
             halfsr(float rhs) : half(float2halfsr(rhs)) {}
 
             halfsr& operator=(float rhs) { setValue(float2halfsr(rhs)); return *this; }
+            halfsr& operator=(const halfsr& rhs) = default;
 
+            /*  */
             halfsr& operator+=(float rhs) { setValue(float2halfsr(static_cast<float>(*this) + rhs)); return *this; }
 
             halfsr& operator-=(float rhs) { setValue(float2halfsr(static_cast<float>(*this) - rhs)); return *this; }
