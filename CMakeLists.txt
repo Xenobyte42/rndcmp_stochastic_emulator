@@ -84,6 +84,9 @@ target_link_libraries(experiment3 Eigen3::Eigen)
 add_executable(experiment4 experiments/experiment4.cpp ${CONTENT})
 target_link_libraries(experiment4 Eigen3::Eigen)
 
+add_executable(experiment5 experiments/experiment5.cpp ${CONTENT})
+target_link_libraries(experiment5 Eigen3::Eigen)
+
 
 
 # Now simply link against gtest or gtest_main as needed. Eg

@@ -48,7 +48,7 @@ namespace rndcmp {
         std::vector<DTYPE> calculate(const std::vector<DTYPE>& x, double t) {
             std::vector<DTYPE> result;
             for (auto func : _system) {
-                result.push_back(func(x, t));
+                result.push_back(DTYPE(func(x, t)));
             }
             return result;
         }
@@ -83,7 +83,7 @@ namespace rndcmp {
                 std::vector<DTYPE> newX;
                 std::vector<DTYPE> f = this->calculate(tempX, t);
                 for (size_t i = 0; i < tempX.size(); i++) {
-                    newX.push_back(tempX[i] + _step * f[i]);
+                    newX.push_back(DTYPE(tempX[i] + _step * f[i]));
                 }
                 tempX = newX;
                 _solution.push_back(newX);
@@ -121,7 +121,8 @@ namespace rndcmp {
 
                 std::vector<DTYPE> newX;
                 for (size_t i = 0; i < tempX.size(); i++) {
-                    newX.push_back(tempX[i] + _step / 6. * (k1[i] + 2. * k2[i] + 2. * k3[i] + k4[i]));
+                    // std::cout << tempX[i] << " " << k1[i]  << " " << k2[i] << " " << k3[i] << " " << k4[i];
+                    newX.push_back(DTYPE(tempX[i] + _step / 6. * (k1[i] + 2. * k2[i] + 2. * k3[i] + k4[i])));
                 }
                 tempX = newX;
                 _solution.push_back(newX);
@@ -137,7 +138,7 @@ namespace rndcmp {
         std::vector<DTYPE> getk2(const std::vector<DTYPE>& x, const std::vector<DTYPE>& k1, double t) {
             std::vector<DTYPE> k2X;
             for (size_t i = 0; i < x.size(); i++) {
-                k2X.push_back(x[i] + _step / 2. * k1[i]);
+                k2X.push_back(DTYPE(x[i] + _step / 2. * k1[i]));
             }
             return this->calculate(k2X, t + _step / 2.);
         }
@@ -145,7 +146,7 @@ namespace rndcmp {
         std::vector<DTYPE> getk3(const std::vector<DTYPE>& x, const std::vector<DTYPE>& k2, double t) {
             std::vector<DTYPE> k3X;
             for (size_t i = 0; i < x.size(); i++) {
-                k3X.push_back(x[i] + _step / 2. * k2[i]);
+                k3X.push_back(DTYPE(x[i] + _step / 2. * k2[i]));
             }
             return this->calculate(k3X, t + _step / 2.);
         }
@@ -153,7 +154,7 @@ namespace rndcmp {
         std::vector<DTYPE> getk4(const std::vector<DTYPE>& x, const std::vector<DTYPE>& k3, double t) {
             std::vector<DTYPE> k4X;
             for (size_t i = 0; i < x.size(); i++) {
-                k4X.push_back(x[i] + _step * k3[i]);
+                k4X.push_back(DTYPE(x[i] + _step * k3[i]));
             }
             return this->calculate(k4X, t + _step);
         }
