@@ -110,6 +110,11 @@ namespace rndcmp {
 
             for (double t = _timeStart; t <= _timeEnd; t+=_step) {
                 std::vector<DTYPE> k1 = getk1(tempX, t);
+                // for (size_t i = 0; i < k1.size(); i++) {
+                //     std::cout << k1[i] << " ";
+                // }
+                // std::cout << std::endl;
+                
                 std::vector<DTYPE> k2 = getk2(tempX, k1, t);
                 std::vector<DTYPE> k3 = getk3(tempX, k2, t);
                 std::vector<DTYPE> k4 = getk4(tempX, k3, t);

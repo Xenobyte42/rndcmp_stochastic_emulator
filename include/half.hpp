@@ -1100,6 +1100,7 @@ namespace half_float
 		/// Conversion constructor.
 		/// \param rhs float to convert
 		explicit half(float rhs) : data_(detail::float2half<round_style>(rhs)) {}
+		explicit half(double rhs) : data_(detail::float2half<round_style>(static_cast<float>(rhs))) {}
 
 		explicit half(detail::uint16 bits) : data_(bits) {}
 	
@@ -1161,6 +1162,7 @@ namespace half_float
 		/// \param rhs single-precision value to divide by
 		/// \return reference to this half
 		half& operator/=(float rhs) { data_ = detail::float2half<round_style>(detail::half2float<float>(data_)/rhs); return *this; }
+
 
 		/// Prefix increment.
 		/// \return incremented half value

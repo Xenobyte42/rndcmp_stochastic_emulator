@@ -42,7 +42,8 @@ namespace rndcmp {
         }
 
         FixedSR operator+(const FixedSR& rhs) const {
-            return FixedSR(value + rhs.value);
+            double val = static_cast<double>(*this) + static_cast<double>(rhs);
+            return FixedSR(val);
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
@@ -89,7 +90,8 @@ namespace rndcmp {
         }
 
         FixedSR operator-(const FixedSR& rhs) const {
-            return FixedSR(value - rhs.value);
+            double val = static_cast<double>(*this) - static_cast<double>(rhs);
+            return FixedSR(val);
         }
 
         template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
