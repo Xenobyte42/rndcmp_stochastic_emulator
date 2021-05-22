@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 #include <Eigen/SVD>
+#include <Eigen/QR>
 
 
 namespace rndcmp {
@@ -30,28 +31,66 @@ namespace rndcmp {
             rescale_weight_m<HIDDEN_SIZE>(W, spectral_radius);
         }
 
-        void fit(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> inputs, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> outputs) {
+        double fit(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> inputs, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> outputs) {
             Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> states;
             states.resize(inputs.rows(), HIDDEN_SIZE);
             states.setZero();
 
-            for (size_t i = 1; i < inputs.rows(); i++) {
-                states.row(i) = update(states.row(i - 1).transpose(), inputs.row(i).transpose()).transpose();
+            // Calculate hidden states
+            for (size_t i = 0; i < inputs.rows(); i++) {
+                if (i == 0) {
+                    Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> initial;
+                    initial.resize(1, HIDDEN_SIZE);
+                    initial.setZero();
+                    states.row(i) = update(initial.transpose(), inputs.row(i).transpose()).transpose();
+                } else {
+                    states.row(i) = update(states.row(i - 1).transpose(), inputs.row(i).transpose()).transpose();
+                }
             }
 
-            // Add inputs for numerical stability
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> extended_states;
-            extended_states.resize(inputs.rows(), states.cols() + INPUT_SIZE);
-            extended_states.block(0, 0, states.rows(), states.cols()) = states;
-            extended_states.block(0, states.cols(), inputs.rows(), inputs.cols()) = inputs;
+            // Find optimal matrix
+            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> states_square = states.transpose() * states;
+            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> pinv = states_square.completeOrthogonalDecomposition().pseudoInverse();
+            W_out = (pinv * states.transpose() * outputs).transpose();
 
-            // Eigen::JacobiSVD<Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic>> svn_holder(extended_states,
-            // Eigen::ComputeThinU | Eigen::ComputeThinV);
+            // Train prediction
+            double pred = error(states * W_out.transpose(), outputs);
+            std::cout  << "Prediction error: " << pred <<  std::endl;
+            return pred;
+        }
 
-            // Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> U = svd_holder
+        Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> predict(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> inputs) {
+            size_t n_samples = inputs.rows();
+            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> outputs;
+            outputs.resize(n_samples, OUTPUT_SIZE);
+            outputs.setZero();
+
+            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> prev;
+            prev.resize(1, HIDDEN_SIZE);
+            prev.setZero();
+
+            for (size_t i = 0; i < n_samples; i++) {
+                Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> temp_state =
+                 update(prev.transpose(), inputs.row(i).transpose()).transpose();
+
+                outputs.row(i) = temp_state * W_out.transpose();
+                prev = temp_state;
+            }
+
+            return outputs;
+        }
+
+        double score(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> x, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> y) {
+            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> y_pred = predict(x);
+            return error(y, y_pred);
         }
 
     protected:
+        double error(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> y, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> y_pred) {
+            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> error_m = y - y_pred;
+            return sqrt((error_m.array() * error_m.array()).matrix().mean());
+        }
+
         HiddenVector update(HiddenVector state, InputVector input_vector) {
             HiddenVector preactivation = W * state.matrix() + W_in * input_vector.matrix();
             return preactivation.array().tanh();

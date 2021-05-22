@@ -78,11 +78,10 @@ int main(int argc, char** argv) {
         calculate<rndcmp::bfloat16sr>(time_end, step);
     }
     if (type.compare("half") == 0) {
-        std::cout << "half" << std::endl;
         calculate<half_float::half>(time_end, step);
     }
-    // if (type.compare("halfsr") == 0) {
-    //     calculate<half_float::halfsr>(time_end, step);
-    // }
+    if (type.compare("halfsr") == 0) {
+        calculate<half_float::halfsr>(time_end, step);
+    }
     return 0;
 }
