@@ -9,100 +9,136 @@
 
 
 namespace rndcmp {
-    template<typename DATA_TYPE, size_t INPUT_SIZE, size_t HIDDEN_SIZE, size_t OUTPUT_SIZE>
+    template<typename DATA_TYPE>
     class ESN {
     public:
-        using HiddenVector = Eigen::Array<DATA_TYPE, HIDDEN_SIZE, 1>;
-        using InputVector = Eigen::Array<DATA_TYPE, INPUT_SIZE, 1>;
+        using ESNMatrix = Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic>;
 
         ESN(
+            size_t input_size,
+            size_t hidden_size,
+            size_t output_size,
             double spectral_radius,
             double sparsity,
+            double regularization,
             size_t seed
             ):
+            _input_size(input_size),
+            _hidden_size(hidden_size),
+            _output_size(output_size),
+            _regularization(regularization),
             _seed(seed) {
+            W_in.resize(_hidden_size, _input_size);
+            W.resize(_hidden_size, _hidden_size);
+            W_out.resize(_output_size, _hidden_size);
+            
             std::mt19937 rd(_seed);
-            std::normal_distribution<double> generator(0.0, 1.0);
+            std::uniform_real_distribution<double> generator(-0.5, 0.5);
 
-            initialize_weight_m<HIDDEN_SIZE, INPUT_SIZE>(W_in, generator, rd, sparsity);
-            initialize_weight_m<HIDDEN_SIZE, HIDDEN_SIZE>(W, generator, rd, sparsity);
-            initialize_weight_m<OUTPUT_SIZE, HIDDEN_SIZE>(W_out, generator, rd, 0.0);
+            initialize_weight_m(W_in, generator, rd, 0.0, hidden_size, input_size);
+            initialize_weight_m(W, generator, rd, sparsity, hidden_size, hidden_size);
+            initialize_weight_m(W_out, generator, rd, 0.0, output_size, hidden_size);
 
-            rescale_weight_m<HIDDEN_SIZE>(W, spectral_radius);
+            rescale_weight_m(spectral_radius);
         }
 
-        double fit(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> inputs, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> outputs) {
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> states;
-            states.resize(inputs.rows(), HIDDEN_SIZE);
+        double fit(ESNMatrix inputs, ESNMatrix outputs) {
+            ESNMatrix states;
+            states.resize(inputs.rows(), _hidden_size);
             states.setZero();
 
             // Calculate hidden states
             for (size_t i = 0; i < inputs.rows(); i++) {
                 if (i == 0) {
-                    Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> initial;
-                    initial.resize(1, HIDDEN_SIZE);
+                    ESNMatrix initial;
+                    initial.resize(1, _hidden_size);
                     initial.setZero();
                     states.row(i) = update(initial.transpose(), inputs.row(i).transpose()).transpose();
+                    
                 } else {
                     states.row(i) = update(states.row(i - 1).transpose(), inputs.row(i).transpose()).transpose();
                 }
             }
 
-            // Find optimal matrix
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> states_square = states.transpose() * states;
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> pinv = states_square.completeOrthogonalDecomposition().pseudoInverse();
-            W_out = (pinv * states.transpose() * outputs).transpose();
+            // Find optimal matrix (we do it in double for numerical stability of fixed and other types)
+            Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> states_d = states.template cast<double>();
+            Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> states_square_d = states_d.transpose() * states_d;
+            
+            for (size_t i = 0; i < states_square_d.rows(); i++) {
+                states_square_d(i, i) += _regularization;
+            }
+            Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> pinv_d = states_square_d.completeOrthogonalDecomposition().pseudoInverse();
+            Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> W_out_d = (pinv_d * states_d.transpose() * outputs.template cast<double>()).transpose();
+            // ESNMatrix pinv = pinv_d.template cast<DATA_TYPE>();
+            // W_out = (pinv * states.transpose() * outputs).transpose();
+            W_out = W_out_d.template cast<DATA_TYPE>();
 
             // Train prediction
             double pred = error(states * W_out.transpose(), outputs);
-            std::cout  << "Prediction error: " << pred <<  std::endl;
             return pred;
         }
 
-        Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> predict(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> inputs) {
+        ESNMatrix predict(ESNMatrix inputs, size_t n_future) {
             size_t n_samples = inputs.rows();
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> outputs;
-            outputs.resize(n_samples, OUTPUT_SIZE);
+            ESNMatrix outputs;
+            outputs.resize(n_samples + n_future, _output_size);
             outputs.setZero();
 
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> prev;
-            prev.resize(1, HIDDEN_SIZE);
+            ESNMatrix prev;
+            prev.resize(1, _hidden_size);
             prev.setZero();
 
             for (size_t i = 0; i < n_samples; i++) {
-                Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> temp_state =
+                ESNMatrix temp_state =
                  update(prev.transpose(), inputs.row(i).transpose()).transpose();
-
                 outputs.row(i) = temp_state * W_out.transpose();
                 prev = temp_state;
             }
 
+            for (size_t i = 0; i < n_future; i++) {
+                size_t idx = n_samples + i;
+                
+                ESNMatrix input = outputs.row(idx - 1);
+                ESNMatrix temp_state =
+                 update(prev.transpose(), input.transpose()).transpose();
+
+                outputs.row(idx) = temp_state * W_out.transpose();
+                prev = temp_state;
+            }
             return outputs;
         }
 
-        double score(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, INPUT_SIZE> x, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> y) {
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> y_pred = predict(x);
+        ESNMatrix predict(ESNMatrix inputs) {
+            return predict(inputs, 0);
+        }
+
+        double score(ESNMatrix x, ESNMatrix y) {
+            ESNMatrix y_pred = predict(x);
             return error(y, y_pred);
         }
 
-    protected:
-        double error(Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> y, Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, OUTPUT_SIZE> y_pred) {
-            Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> error_m = y - y_pred;
-            return sqrt((error_m.array() * error_m.array()).matrix().mean());
+        double error(ESNMatrix y, ESNMatrix y_pred) {
+            Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> error_m = (y - y_pred).template cast<double>();
+            return sqrt((error_m.array() * error_m.array()).matrix().rowwise().sum().mean());
         }
 
-        HiddenVector update(HiddenVector state, InputVector input_vector) {
-            HiddenVector preactivation = W * state.matrix() + W_in * input_vector.matrix();
+    protected:
+        ESNMatrix update(ESNMatrix state, ESNMatrix input_vector) {
+            ESNMatrix preactivation = W * state.matrix() + W_in * input_vector.matrix();
             return preactivation.array().tanh();
         }
 
-        template<size_t FIRST_SIZE, size_t SECOND_SIZE>
-        void initialize_weight_m(Eigen::Matrix<DATA_TYPE, FIRST_SIZE, SECOND_SIZE>& m, std::normal_distribution<double> generator, std::mt19937 rd, double sparsity) {
+        void initialize_weight_m(ESNMatrix& m, 
+                                 std::uniform_real_distribution<double> generator, 
+                                 std::mt19937 rd, 
+                                 double sparsity,
+                                 size_t first_size,
+                                 size_t second_size) {
             std::mt19937 random_device(_seed);
             std::uniform_real_distribution<double> probability_gen(0.0, 1.0);
 
-            for (size_t i = 0; i < FIRST_SIZE; i++) {
-                for (size_t j = 0; j < SECOND_SIZE; j++) {
+            for (size_t i = 0; i < first_size; i++) {
+                for (size_t j = 0; j < second_size; j++) {
                     if (probability_gen(random_device) < sparsity) {
                         m(i, j) = DATA_TYPE(0.0);
                     } else {
@@ -112,9 +148,8 @@ namespace rndcmp {
             }
         }
 
-        template<size_t M_SIZE>
-        void rescale_weight_m(Eigen::Matrix<DATA_TYPE, M_SIZE, M_SIZE>& m, double spectral_radius) {
-            Eigen::EigenSolver<Eigen::Matrix<double, M_SIZE, M_SIZE>> solver(m.template cast<double>());
+        void rescale_weight_m(double spectral_radius) {
+            Eigen::EigenSolver<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> solver(W.template cast<double>());
             Eigen::VectorXcd eivals = solver.eigenvalues();
 
             double real_sr = 0.0;
@@ -125,14 +160,19 @@ namespace rndcmp {
                 }
             }
 
-            m /= (real_sr / spectral_radius);
+            W /= (real_sr / spectral_radius);
         }
 
         size_t _seed;
 
-        Eigen::Matrix<DATA_TYPE, HIDDEN_SIZE, INPUT_SIZE> W_in;
-        Eigen::Matrix<DATA_TYPE, HIDDEN_SIZE, HIDDEN_SIZE> W;
-        Eigen::Matrix<DATA_TYPE, OUTPUT_SIZE, HIDDEN_SIZE> W_out;
+        Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> W_in;
+        Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> W;
+        Eigen::Matrix<DATA_TYPE, Eigen::Dynamic, Eigen::Dynamic> W_out;
+
+        size_t _input_size;
+        size_t _hidden_size;
+        size_t _output_size;
+        double _regularization;
     };
 }
 

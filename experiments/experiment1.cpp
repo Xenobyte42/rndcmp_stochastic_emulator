@@ -5,9 +5,9 @@
 
 
 int main() {
-    size_t N =  1000000;
+    size_t N =  5000000;
 
-    double s0 = 0.;
+    double s0 = 120.;
     // Candidates
     rndcmp::Fixed fp15_16 = rndcmp::Fixed<std::int32_t, 16>(s0);
     rndcmp::FixedSR fp15_16_sr = rndcmp::FixedSR<std::int32_t, 16>(s0);

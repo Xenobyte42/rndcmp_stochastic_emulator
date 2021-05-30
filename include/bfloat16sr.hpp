@@ -415,40 +415,40 @@ namespace rndcmp {
         }
 
         /* Trigonometric functions */
-        friend inline bfloat16sr cos(const bfloat16sr&  x)  { return cos(static_cast<double>(x)); }
-        friend inline bfloat16sr sin(const bfloat16sr&  x)  { return sin(static_cast<double>(x)); }
-        friend inline bfloat16sr tan(const bfloat16sr&  x)  { return tan(static_cast<double>(x)); }
-        friend inline bfloat16sr acos(const bfloat16sr&  x)  { return acos(static_cast<double>(x)); }
-        friend inline bfloat16sr asin(const bfloat16sr&  x)  { return asin(static_cast<double>(x)); }
-        friend inline bfloat16sr atan(const bfloat16sr&  x)  { return atan(static_cast<double>(x)); }
+        friend inline bfloat16sr cos(const bfloat16sr&  x)  { return cos(static_cast<float>(x)); }
+        friend inline bfloat16sr sin(const bfloat16sr&  x)  { return sin(static_cast<float>(x)); }
+        friend inline bfloat16sr tan(const bfloat16sr&  x)  { return tan(static_cast<float>(x)); }
+        friend inline bfloat16sr acos(const bfloat16sr&  x)  { return acos(static_cast<float>(x)); }
+        friend inline bfloat16sr asin(const bfloat16sr&  x)  { return asin(static_cast<float>(x)); }
+        friend inline bfloat16sr atan(const bfloat16sr&  x)  { return atan(static_cast<float>(x)); }
 
         /* Hyperbolic functions */
-        friend inline bfloat16sr cosh(const bfloat16sr&  x)  { return cosh(static_cast<double>(x)); }
-        friend inline bfloat16sr sinh(const bfloat16sr&  x)  { return sinh(static_cast<double>(x)); }
-        friend inline bfloat16sr tanh(const bfloat16sr&  x)  { return tanh(static_cast<double>(x)); }
-        friend inline bfloat16sr acosh(const bfloat16sr&  x)  { return acosh(static_cast<double>(x)); }
-        friend inline bfloat16sr asinh(const bfloat16sr&  x)  { return asinh(static_cast<double>(x)); }
-        friend inline bfloat16sr atanh(const bfloat16sr&  x)  { return atanh(static_cast<double>(x)); }
+        friend inline bfloat16sr cosh(const bfloat16sr&  x)  { return cosh(static_cast<float>(x)); }
+        friend inline bfloat16sr sinh(const bfloat16sr&  x)  { return sinh(static_cast<float>(x)); }
+        friend inline bfloat16sr tanh(const bfloat16sr&  x)  { return tanh(static_cast<float>(x)); }
+        friend inline bfloat16sr acosh(const bfloat16sr&  x)  { return acosh(static_cast<float>(x)); }
+        friend inline bfloat16sr asinh(const bfloat16sr&  x)  { return asinh(static_cast<float>(x)); }
+        friend inline bfloat16sr atanh(const bfloat16sr&  x)  { return atanh(static_cast<float>(x)); }
 
         /* Exponential and logarithmic functions */
-        friend inline bfloat16sr exp(const bfloat16sr&  x)  { return exp(static_cast<double>(x)); }
-        friend inline bfloat16sr log(const bfloat16sr&  x)  { return log(static_cast<double>(x)); }
-        friend inline bfloat16sr log10(const bfloat16sr&  x)  { return log10(static_cast<double>(x)); }
-        friend inline bfloat16sr logb(const bfloat16sr&  x)  { return logb(static_cast<double>(x)); }
+        friend inline bfloat16sr exp(const bfloat16sr&  x)  { return exp(static_cast<float>(x)); }
+        friend inline bfloat16sr log(const bfloat16sr&  x)  { return log(static_cast<float>(x)); }
+        friend inline bfloat16sr log10(const bfloat16sr&  x)  { return log10(static_cast<float>(x)); }
+        friend inline bfloat16sr logb(const bfloat16sr&  x)  { return logb(static_cast<float>(x)); }
 
         /* Power functions */
-        friend inline bfloat16sr pow(const bfloat16sr&  base, double exponent)  { return pow(static_cast<double>(base), exponent); }
-        friend inline bfloat16sr sqrt(const bfloat16sr&  x)  { return sqrt(static_cast<double>(x)); }
-        friend inline bfloat16sr cbrt(const bfloat16sr&  x)  { return cbrt(static_cast<double>(x)); }
+        friend inline bfloat16sr pow(const bfloat16sr&  base, double exponent)  { return pow(static_cast<float>(base), exponent); }
+        friend inline bfloat16sr sqrt(const bfloat16sr&  x)  { return sqrt(static_cast<float>(x)); }
+        friend inline bfloat16sr cbrt(const bfloat16sr&  x)  { return cbrt(static_cast<float>(x)); }
     
-        friend inline bfloat16sr scalbn(const bfloat16sr&  x, int n)  { return scalbn(static_cast<double>(x), n); }
+        friend inline bfloat16sr scalbn(const bfloat16sr&  x, int n)  { return scalbn(static_cast<float>(x), n); }
 
         /* Other functions */
-        friend inline bfloat16sr abs(const bfloat16sr&  x)  { return abs(static_cast<double>(x)); }
-        friend inline bfloat16sr fabs(const bfloat16sr&  x)  { return fabs(static_cast<double>(x)); }
+        friend inline bfloat16sr abs(const bfloat16sr&  x)  { return abs(static_cast<float>(x)); }
+        friend inline bfloat16sr fabs(const bfloat16sr&  x)  { return fabs(static_cast<float>(x)); }
         friend inline bfloat16sr abs2(const bfloat16sr& x)  { return x*x; }
 
-        friend inline bfloat16sr copysign(const bfloat16sr&  x1, const bfloat16sr& x2)  { return copysign(static_cast<double>(x1), static_cast<double>(x2)); }
+        friend inline bfloat16sr copysign(const bfloat16sr&  x1, const bfloat16sr& x2)  { return copysign(static_cast<float>(x1), static_cast<float>(x2)); }
         friend inline bfloat16sr fmax(const bfloat16sr&  x1, const bfloat16sr&  x2) { return x1 < x2 ? x1 : x2; }
         friend inline bool isfinite(const bfloat16sr& x) { return true; }
 
@@ -475,7 +475,8 @@ namespace rndcmp {
 }
 
 namespace Eigen {
-    template<> struct NumTraits<rndcmp::bfloat16sr> {
+    // Inheritance from float is a temporary bad solution. Need specify all NumTraits explicitly
+    template<> struct NumTraits<rndcmp::bfloat16sr>: NumTraits<float> {
         typedef rndcmp::bfloat16sr Real;
         typedef rndcmp::bfloat16sr NonInteger;
         typedef rndcmp::bfloat16sr Nested;

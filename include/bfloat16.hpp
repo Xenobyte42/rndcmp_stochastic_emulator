@@ -427,14 +427,14 @@ namespace rndcmp {
         friend inline bfloat16 exp(const bfloat16&  x)  { return exp(static_cast<float>(x)); }
         friend inline bfloat16 log(const bfloat16&  x)  { return log(static_cast<float>(x)); }
         friend inline bfloat16 log10(const bfloat16&  x)  { return log10(static_cast<float>(x)); }
-        friend inline bfloat16 logb(const bfloat16&  x)  { return logb(static_cast<double>(x)); }
+        friend inline bfloat16 logb(const bfloat16&  x)  { return logb(static_cast<float>(x)); }
 
         /* Power functions */
         friend inline bfloat16 pow(const bfloat16&  base, double exponent)  { return pow(static_cast<float>(base), exponent); }
         friend inline bfloat16 sqrt(const bfloat16&  x)  { return sqrt(static_cast<float>(x)); }
         friend inline bfloat16 cbrt(const bfloat16&  x)  { return cbrt(static_cast<float>(x)); }
 
-        friend inline bfloat16 scalbn(const bfloat16&  x, int n)  { return scalbn(static_cast<double>(x), n); }
+        friend inline bfloat16 scalbn(const bfloat16&  x, int n)  { return scalbn(static_cast<float>(x), n); }
 
 
         /* Other functions */
@@ -465,7 +465,8 @@ namespace rndcmp {
 }
 
 namespace Eigen {
-    template<> struct NumTraits<rndcmp::bfloat16> {
+    // Inheritance from float is a temporary bad solution. Need specify all NumTraits explicitly
+    template<> struct NumTraits<rndcmp::bfloat16>: NumTraits<float> {
         typedef rndcmp::bfloat16 Real;
         typedef rndcmp::bfloat16 NonInteger;
         typedef rndcmp::bfloat16 Nested;

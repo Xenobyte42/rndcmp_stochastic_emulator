@@ -54,7 +54,8 @@ namespace rndcmp {
         }
 
         FixedSR& operator+=(const FixedSR& rhs) {
-            value += rhs.value;
+            double sum = static_cast<double>(*this) + static_cast<double>(rhs);
+            setValueFromT(sum);
             return *this;
         }
 
@@ -102,7 +103,8 @@ namespace rndcmp {
         }
 
         FixedSR& operator-=(const FixedSR& rhs) {
-            value -= rhs.value;
+            double val = static_cast<double>(*this) - static_cast<double>(rhs);
+            setValueFromT(val);
             return *this;
         }
 
@@ -142,7 +144,8 @@ namespace rndcmp {
         }
 
         FixedSR& operator*=(const FixedSR& rhs) {
-            value *= rhs.value;
+            double val = static_cast<double>(*this) * static_cast<double>(rhs);
+            setValueFromT(val);
             return *this;
         }
 
@@ -196,7 +199,8 @@ namespace rndcmp {
         }
 
         FixedSR& operator/=(const FixedSR& rhs) {
-            value /= rhs.value;
+            double val = static_cast<double>(*this) / static_cast<double>(rhs);
+            setValueFromT(val);
             return *this;
         }
 
@@ -294,7 +298,8 @@ namespace rndcmp {
 }
 
 namespace Eigen {
-    template<typename INT_T, int FRACT_SIZE, int POW> struct NumTraits<rndcmp::FixedSR<INT_T, FRACT_SIZE, POW>> {
+    // Inheritance from float is a temporary bad solution. Need specify all NumTraits explicitly
+    template<typename INT_T, int FRACT_SIZE, int POW> struct NumTraits<rndcmp::FixedSR<INT_T, FRACT_SIZE, POW>>: NumTraits<float> {
         typedef rndcmp::FixedSR<INT_T, FRACT_SIZE, POW> Real;
         typedef rndcmp::FixedSR<INT_T, FRACT_SIZE, POW> NonInteger;
         typedef rndcmp::FixedSR<INT_T, FRACT_SIZE, POW> Nested;
